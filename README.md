@@ -89,7 +89,7 @@ genügt ein Webspace, der statische Dateien ausliefert.
    `assets/`, die Unterverzeichnisse der Routen und eine `.htaccess`:
 
    ```
-   tar -xzf erprobungspass-2026.11.01.tar.gz -C erprobungspass
+   tar -xzf erprobungspass-2026.11.1.tar.gz -C erprobungspass
    ```
 
 4. Den gesamten Inhalt — einschließlich der Datei `.htaccess` — in das
@@ -158,9 +158,9 @@ Einstellungen → Pages als Quelle „GitHub Actions“ eingestellt ist.
 ### Fassungen und Veröffentlichung
 
 Die Fassung folgt dem Kalenderschema `YYYY.MM.NN`: Jahr, Monat und eine
-zweistellige Zählung der Veröffentlichungen innerhalb des Monats. Die erste
-Veröffentlichung im November 2026 ist also `2026.11.01`, die zweite
-`2026.11.02`.
+Zählung der Veröffentlichungen innerhalb des Monats. `NN` läuft von `1` bis
+`9999` und trägt keine führende Null. Die erste Veröffentlichung im November
+2026 ist also `2026.11.1`, die zweite `2026.11.2`.
 
 Die nächste freie Fassung nennt:
 
@@ -172,8 +172,8 @@ Veröffentlicht wird über ein Tag. GitHub Actions baut daraufhin das Archiv,
 erzeugt die Prüfsumme und legt das Release an:
 
 ```
-git tag v2026.11.01
-git push origin v2026.11.01
+git tag v2026.11.1
+git push origin v2026.11.1
 ```
 
 Das Tag darf auch ohne führendes `v` gesetzt werden. Die Fassung in

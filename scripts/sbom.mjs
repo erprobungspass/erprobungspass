@@ -126,9 +126,20 @@ const kennungen = (ausdruck) =>
     .filter(Boolean)
     .map((id) => id.replace(/\+$/, ""));
 
+// Ein Paket ohne auswertbare Lizenzangabe ist eine unbekannte Lizenz und muss
+// den Build anhalten, statt als NOASSERTION in die Stückliste zu wandern.
+const ohneLizenz = pakete.filter((p) => !p.ausdruck).map((p) => `${p.name}@${p.version}`);
+if (ohneLizenz.length > 0) {
+  console.error(
+    `Für folgende Pakete ist keine Lizenz angegeben: ${ohneLizenz.join(", ")}.\n` +
+      "Die Lizenz prüfen und als SPDX-Ausdruck hinterlegen.",
+  );
+  process.exit(1);
+}
+
 const genutzt = new Set(["EUPL-1.2"]);
 for (const paket of pakete) {
-  if (paket.ausdruck) for (const id of kennungen(paket.ausdruck)) genutzt.add(id);
+  for (const id of kennungen(paket.ausdruck)) genutzt.add(id);
 }
 
 // EUPL-1.2 ist die Lizenz der Anwendung selbst und liegt in LICENSES/. Die
@@ -225,6 +236,4 @@ for (const paket of pakete) {
 
 const vermerkeDatei = join(dirname(out), "THIRD-PARTY-LICENSES.txt");
 await writeFile(vermerkeDatei, `${vermerke.join("\n")}\n`);
-console.log(
-  `vermerke: ${vermerkeDatei} (${pakete.length} Pakete, ${ohneText} ohne eigenen Text)`,
-);
+console.log(`vermerke: ${vermerkeDatei} (${pakete.length} Pakete, ${ohneText} ohne eigenen Text)`);

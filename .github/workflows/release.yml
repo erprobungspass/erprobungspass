@@ -5,13 +5,19 @@ name: Release
 
 on:
   push:
-    # Kalenderfassung YYYY.MM.NN, mit oder ohne führendes "v".
-    # NN ein- oder zweistellig.
+    # Kalenderfassung YYYY.MM.NN, mit oder ohne führendes "v". NN läuft von 1
+    # bis 9999 und trägt keine führende Null: sonst wären v2026.11.1 und
+    # v2026.11.01 zwei Schreibweisen derselben Fassung mit verschiedenen
+    # Archivnamen. Die Prüfung im Job setzt das durch.
     tags:
       - "v[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9]"
       - "v[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
+      - "v[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9][0-9]"
+      - "v[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]"
       - "[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9]"
       - "[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
+      - "[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9][0-9]"
+      - "[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]"
 
 permissions:
   contents: write
@@ -40,8 +46,8 @@ jobs:
       - name: Fassung aus dem Tag übernehmen
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          if ! printf '%s' "$VERSION" | grep -qE '^[0-9]{4}\.(0[1-9]|1[0-2])\.[0-9]{1,2}$'; then
-            echo "Tag '$GITHUB_REF_NAME' entspricht nicht YYYY.MM.NN." >&2
+          if ! printf '%s' "$VERSION" | grep -qE '^[0-9]{4}\.(0[1-9]|1[0-2])\.[1-9][0-9]{0,3}$'; then
+            echo "Tag '$GITHUB_REF_NAME' entspricht nicht YYYY.MM.NN (NN 1 bis 9999, ohne führende Null)." >&2
             exit 1
           fi
           # NN zählt die Releases des Monats; Jahr und Monat müssen zum Tag passen.

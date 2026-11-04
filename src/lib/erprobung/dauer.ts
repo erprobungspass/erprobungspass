@@ -17,10 +17,12 @@ export function wochenGueltig(wochen: number): boolean {
 /** Enddatum als ISO-Datum (JJJJ-MM-TT) oder leer, wenn kein Start vorliegt. */
 export function endDatumIso(startIso: string, wochen: number): string {
   if (!startIso || !wochenGueltig(wochen)) return "";
-  const start = new Date(`${startIso}T00:00:00`);
+  // Durchgehend UTC: lokale Mitternacht fällt östlich von Greenwich auf den
+  // Vortag in UTC, sodass toISOString einen Tag zu früh ausgäbe.
+  const start = new Date(`${startIso}T00:00:00Z`);
   if (Number.isNaN(start.getTime())) return "";
   const ende = new Date(start.getTime());
-  ende.setDate(ende.getDate() + wochen * 7);
+  ende.setUTCDate(ende.getUTCDate() + wochen * 7);
   return ende.toISOString().slice(0, 10);
 }
 

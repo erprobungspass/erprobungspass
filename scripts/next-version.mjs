@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 // Ermittelt die nächste Kalenderfassung YYYY.MM.NN. NN zählt die Releases des
-// laufenden Monats und wird aus den vorhandenen Tags abgeleitet.
+// laufenden Monats und wird aus den vorhandenen Tags abgeleitet. NN läuft von 1
+// bis 9999 und trägt keine führende Null.
 
 import { execFileSync } from "node:child_process";
 
@@ -21,4 +22,4 @@ const hoechste = tags.reduce((max, tag) => {
   return Number.isNaN(nn) ? max : Math.max(max, nn);
 }, 0);
 
-console.log(`${praefix}${String(hoechste + 1).padStart(2, "0")}`);
+console.log(`${praefix}${hoechste + 1}`);

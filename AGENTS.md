@@ -25,8 +25,9 @@ VITE_BASE_PATH=/erprobungspass npm run build
 
 ## Fassungen
 
-Kalenderschema `YYYY.MM.NN` (`NN` zählt die Veröffentlichungen des Monats).
-`npm run version:next` nennt die nächste freie Fassung. Ein Tag `v2026.11.01`
+Kalenderschema `YYYY.MM.NN` (`NN` zählt die Veröffentlichungen des Monats,
+`1` bis `9999`, ohne führende Null).
+`npm run version:next` nennt die nächste freie Fassung. Ein Tag `v2026.11.1`
 löst den Release-Ablauf aus; die Fassung in `package.json` wird dabei aus dem
 Tag gesetzt.
 
