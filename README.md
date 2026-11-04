@@ -72,6 +72,39 @@ Vorgangskennung, `export.ts` die Ausgabeformate und `speicher.ts` beziehungsweis
 `REGELWERK.md` enthält alle Fragen, Auslöser, Fundstellen und Auflagentexte und
 ist damit auch ohne den Programmcode nachnutzbar.
 
+## Auf einem Webspace einrichten
+
+Für den Betrieb wird weder Node.js noch ein Programmierwerkzeug gebraucht. Es
+genügt ein Webspace, der statische Dateien ausliefert.
+
+1. Das neueste Release öffnen und das Archiv
+   `erprobungspass-<Fassung>.tar.gz` herunterladen. Quelltext und Releases
+   liegen an zwei gleichwertigen Stellen:
+   - <https://github.com/erprobungspass/erprobungspass/releases>
+   - <https://gitlab.opencode.de/deutschland-was-geht1/erprobungspass/-/releases>
+     (openCode, die Plattform des Bundes für offene Verwaltungssoftware)
+2. Prüfsumme abgleichen: `SHA256SUMS` liegt beim Release;
+   `sha256sum -c SHA256SUMS` muss „OK“ melden.
+3. Archiv entpacken. Es ist flach aufgebaut und enthält bereits `index.html`,
+   `assets/`, die Unterverzeichnisse der Routen und eine `.htaccess`:
+
+   ```
+   tar -xzf erprobungspass-2026.11.01.tar.gz -C erprobungspass
+   ```
+
+4. Den gesamten Inhalt — einschließlich der Datei `.htaccess` — in das
+   Dokumentenwurzelverzeichnis des Webspace übertragen, etwa per SFTP in
+   `/public_html`. Wird im Dateiprogramm keine `.htaccess` angezeigt, müssen
+   versteckte Dateien eingeblendet werden.
+
+Danach ist die Anwendung unter der Adresse des Webspace erreichbar. Eine
+Datenbank, eine Serverlaufzeit oder eine Netzwerkverbindung nach außen sind
+nicht nötig.
+
+Das Archiv ist für den Betrieb im Wurzelverzeichnis gebaut. Soll die Anwendung
+in einem Unterverzeichnis liegen, muss sie mit dem passenden Präfix selbst
+gebaut werden (siehe [Veröffentlichen](#veröffentlichen)).
+
 ## Lokal starten
 
 Voraussetzung ist Node.js 20 oder neuer.
