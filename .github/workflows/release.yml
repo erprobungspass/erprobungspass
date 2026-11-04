@@ -70,7 +70,7 @@ jobs:
           Für die Auslieferung in einem Unterverzeichnis muss die Anwendung
           mit `VITE_BASE_PATH=/pfad npm run build` selbst gebaut werden.
 
-          Die Stückliste (CycloneDX) liegt als `sbom.json` im Archiv und
+          Die Stückliste (SPDX) liegt als `sbom.json` im Archiv und
           zusätzlich als eigene Datei am Release.
           NOTES
 

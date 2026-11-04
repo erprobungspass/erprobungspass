@@ -1,10 +1,11 @@
 // SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
-// Erzeugt eine CycloneDX-Stückliste der ausgelieferten Pakete aus dem Lockfile.
+// Erzeugt eine SPDX-Stückliste der ausgelieferten Pakete aus dem Lockfile.
 // Entwicklungsabhängigkeiten bleiben außen vor, sie landen nicht im Build.
 // Daneben entsteht LICENSES/ mit dem Text jeder tatsächlich genutzten Lizenz.
 
+import { randomUUID } from "node:crypto";
 import { readFile, writeFile, mkdir, copyFile, readdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -32,50 +33,91 @@ async function lizenz(path, entry) {
   return null;
 }
 
-const components = [];
-const pfade = new Map();
+const pakete = [];
+const gesehen = new Set();
 for (const [path, entry] of Object.entries(lock.packages)) {
   if (path === "" || entry.dev || entry.extraneous) continue;
   const name = entry.name ?? path.slice(path.lastIndexOf("node_modules/") + 13);
   if (!name || !entry.version) continue;
+  if (gesehen.has(purl(name, entry.version))) continue;
+  gesehen.add(purl(name, entry.version));
 
-  const ausdruck = await lizenz(path, entry);
-  pfade.set(purl(name, entry.version), path);
-  components.push({
-    type: "library",
-    "bom-ref": purl(name, entry.version),
+  pakete.push({
+    path,
     name,
     version: entry.version,
     purl: purl(name, entry.version),
-    ...(ausdruck ? { licenses: [{ expression: ausdruck }] } : {}),
-    ...(entry.resolved
-      ? { externalReferences: [{ type: "distribution", url: entry.resolved }] }
-      : {}),
+    ausdruck: await lizenz(path, entry),
+    resolved: entry.resolved ?? null,
   });
 }
-components.sort((a, b) => a["bom-ref"].localeCompare(b["bom-ref"]));
+pakete.sort((a, b) => a.purl.localeCompare(b.purl));
+
+// SPDX erlaubt in Kennungen nur Buchstaben, Ziffern, Punkt und Bindestrich.
+const spdxId = (name, version) =>
+  `SPDXRef-Package-${`${name}-${version}`.replace(/[^a-zA-Z0-9.-]/g, "-")}`;
+
+const wurzel = spdxId(pkg.name, pkg.version);
+const zeitpunkt = `${new Date().toISOString().slice(0, 19)}Z`;
+
+const spdxPaket = (p) => ({
+  SPDXID: spdxId(p.name, p.version),
+  name: p.name,
+  versionInfo: p.version,
+  downloadLocation: p.resolved ?? "NOASSERTION",
+  filesAnalyzed: false,
+  licenseConcluded: p.ausdruck ?? "NOASSERTION",
+  licenseDeclared: p.ausdruck ?? "NOASSERTION",
+  copyrightText: "NOASSERTION",
+  externalRefs: [
+    {
+      referenceCategory: "PACKAGE-MANAGER",
+      referenceType: "purl",
+      referenceLocator: p.purl,
+    },
+  ],
+});
 
 const bom = {
-  bomFormat: "CycloneDX",
-  specVersion: "1.6",
-  version: 1,
-  metadata: {
-    timestamp: new Date().toISOString(),
-    component: {
-      type: "application",
-      "bom-ref": purl(pkg.name, pkg.version),
-      name: pkg.name,
-      version: pkg.version,
-      purl: purl(pkg.name, pkg.version),
-      licenses: [{ expression: "EUPL-1.2" }],
-    },
+  spdxVersion: "SPDX-2.3",
+  dataLicense: "CC0-1.0",
+  SPDXID: "SPDXRef-DOCUMENT",
+  name: `${pkg.name}-${pkg.version}`,
+  documentNamespace: `https://spdx.org/spdxdocs/${pkg.name}-${pkg.version}-${randomUUID()}`,
+  creationInfo: {
+    created: zeitpunkt,
+    creators: ["Tool: scripts/sbom.mjs"],
   },
-  components,
+  packages: [
+    {
+      ...spdxPaket({
+        name: pkg.name,
+        version: pkg.version,
+        purl: purl(pkg.name, pkg.version),
+        ausdruck: "EUPL-1.2",
+        resolved: null,
+      }),
+      SPDXID: wurzel,
+    },
+    ...pakete.map(spdxPaket),
+  ],
+  relationships: [
+    {
+      spdxElementId: "SPDXRef-DOCUMENT",
+      relationshipType: "DESCRIBES",
+      relatedSpdxElement: wurzel,
+    },
+    ...pakete.map((p) => ({
+      spdxElementId: wurzel,
+      relationshipType: "DEPENDS_ON",
+      relatedSpdxElement: spdxId(p.name, p.version),
+    })),
+  ],
 };
 
 await mkdir(dirname(out), { recursive: true });
 await writeFile(out, `${JSON.stringify(bom, null, 2)}\n`);
-console.log(`sbom: ${out} (${components.length} Pakete)`);
+console.log(`sbom: ${out} (${pakete.length} Pakete)`);
 
 // Kennungen aus einem SPDX-Ausdruck lösen, etwa "(MIT OR Apache-2.0)".
 const kennungen = (ausdruck) =>
@@ -85,9 +127,8 @@ const kennungen = (ausdruck) =>
     .map((id) => id.replace(/\+$/, ""));
 
 const genutzt = new Set(["EUPL-1.2"]);
-for (const component of components) {
-  const ausdruck = component.licenses?.[0]?.expression;
-  if (ausdruck) for (const id of kennungen(ausdruck)) genutzt.add(id);
+for (const paket of pakete) {
+  if (paket.ausdruck) for (const id of kennungen(paket.ausdruck)) genutzt.add(id);
 }
 
 // EUPL-1.2 ist die Lizenz der Anwendung selbst und liegt in LICENSES/. Die
@@ -163,15 +204,14 @@ const vermerke = [
 ];
 
 let ohneText = 0;
-for (const component of components) {
-  const path = pfade.get(component["bom-ref"]);
-  const ausdruck = component.licenses?.[0]?.expression ?? "unbekannt";
-  const text = path ? await paketText(path) : null;
+for (const paket of pakete) {
+  const ausdruck = paket.ausdruck ?? "unbekannt";
+  const text = await paketText(paket.path);
   if (!text) ohneText++;
 
   vermerke.push(
     strich,
-    `${component.name} ${component.version}`,
+    `${paket.name} ${paket.version}`,
     `Lizenz: ${ausdruck}`,
     strich,
     "",
@@ -186,5 +226,5 @@ for (const component of components) {
 const vermerkeDatei = join(dirname(out), "THIRD-PARTY-LICENSES.txt");
 await writeFile(vermerkeDatei, `${vermerke.join("\n")}\n`);
 console.log(
-  `vermerke: ${vermerkeDatei} (${components.length} Pakete, ${ohneText} ohne eigenen Text)`,
+  `vermerke: ${vermerkeDatei} (${pakete.length} Pakete, ${ohneText} ohne eigenen Text)`,
 );

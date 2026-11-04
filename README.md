@@ -176,7 +176,7 @@ eingetragen. Prüfen lässt sich das mit `reuse lint`.
 
 Der Build legt zusätzlich `dist/LICENSES/` an. Dort liegt der Text jeder
 Lizenz, die in den ausgelieferten Paketen tatsächlich vorkommt, passend zur
-Stückliste in `dist/sbom.json`.
+SPDX-Stückliste in `dist/sbom.json`.
 
 Daneben entsteht `dist/THIRD-PARTY-LICENSES.txt` mit dem Urhebervermerk jedes
 einzelnen Pakets. MIT, BSD und verwandte Lizenzen verlangen, diesen Vermerk
