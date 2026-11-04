@@ -1,0 +1,47 @@
+version = 1
+SPDX-PackageName = "Erprobungspass"
+SPDX-PackageSupplier = "Immersive Education Ideations uG (haftungsbeschränkt)"
+
+[[annotations]]
+path = [
+  "src/components/ui/**",
+  "src/hooks/use-mobile.tsx",
+  "src/lib/utils.ts",
+]
+SPDX-FileCopyrightText = "2023 shadcn"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "src/routeTree.gen.ts",
+  "public/favicon.ico",
+]
+SPDX-FileCopyrightText = "2026 Immersive Education Ideations uG (haftungsbeschränkt)"
+SPDX-License-Identifier = "EUPL-1.2"
+
+[[annotations]]
+path = [
+  ".gitignore",
+  ".prettierignore",
+  ".prettierrc",
+  "LICENSE",
+  "components.json",
+  "package-lock.json",
+  "package.json",
+  "public/robots.txt",
+  "tsconfig.json",
+]
+SPDX-FileCopyrightText = "2026 Immersive Education Ideations uG (haftungsbeschränkt)"
+SPDX-License-Identifier = "CC0-1.0"
+
+# Unveränderte Lizenztexte der SPDX-Liste. Sie werden beim Build nach
+# dist/LICENSES/ kopiert und sind keine eigenen Werke.
+[[annotations]]
+path = "vendor/spdx-licenses/**"
+SPDX-FileCopyrightText = "SPDX contributors"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "vendor/xlsx-0.20.3.tgz"
+SPDX-FileCopyrightText = "2012-present SheetJS LLC"
+SPDX-License-Identifier = "Apache-2.0"

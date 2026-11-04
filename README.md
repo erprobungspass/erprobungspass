@@ -169,6 +169,21 @@ European Union Public Licence, Version 1.2 (EUPL-1.2). Der Lizenztext liegt in
 (haftungsbeschränkt). Jede selbst geschriebene Quelldatei trägt im Kopf eine
 REUSE-konforme Angabe mit SPDX-Kennung.
 
+Das Vorhaben folgt der [REUSE-Spezifikation](https://reuse.software) in Fassung
+3.2. Die Lizenztexte liegen in `LICENSES/`; Dateien ohne eigenen Kopf, etwa
+Konfigurationen und übernommene Oberflächenbausteine, sind in `REUSE.toml`
+eingetragen. Prüfen lässt sich das mit `reuse lint`.
+
+Der Build legt zusätzlich `dist/LICENSES/` an. Dort liegt der Text jeder
+Lizenz, die in den ausgelieferten Paketen tatsächlich vorkommt, passend zur
+Stückliste in `dist/sbom.json`.
+
+Daneben entsteht `dist/THIRD-PARTY-LICENSES.txt` mit dem Urhebervermerk jedes
+einzelnen Pakets. MIT, BSD und verwandte Lizenzen verlangen, diesen Vermerk
+mitzuliefern; der Text je Lizenzkennung allein genügt dafür nicht. Beide
+Angaben erzeugt `npm run sbom` aus `package-lock.json` und den installierten
+Paketen; von Hand gepflegt wird dort nichts.
+
 ## Förderung
 
 Das Vorhaben wird durch die Bundesagentur für Sprunginnovationen SPRIND im

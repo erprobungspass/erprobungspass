@@ -39,6 +39,12 @@ Tag gesetzt.
 - `xlsx` liegt bewusst als geprüftes Archiv unter `vendor/`. Es ist die
   SheetJS **Community Edition** unter Apache-2.0; die Pro-Variante ist
   lizenzrechtlich ausgeschlossen. Beim Aktualisieren Prüfsumme und Lizenz
-  erneut prüfen und `public/THIRD-PARTY-LICENSES.txt` nachziehen.
+  erneut prüfen.
 - Fachliche Inhalte gehören ausschließlich nach `src/data`, nicht in
   Komponenten. Siehe `REGELWERK.md`.
+- Jede neue Datei braucht Lizenzangaben nach REUSE: entweder einen Kopf mit
+  `SPDX-FileCopyrightText` und `SPDX-License-Identifier` oder einen Eintrag in
+  `REUSE.toml`. `reuse lint` muss durchlaufen.
+- Kommt eine Abhängigkeit mit einer bisher unbekannten Lizenz hinzu, gehört
+  deren unveränderter SPDX-Text nach `vendor/spdx-licenses/`. Sonst bricht
+  `npm run sbom` ab.

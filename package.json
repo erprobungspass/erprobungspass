@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build && node scripts/static-routes.mjs",
-    "build:dev": "vite build --mode development && node scripts/static-routes.mjs",
+    "build": "vite build && node scripts/static-routes.mjs && npm run sbom",
+    "build:dev": "vite build --mode development && node scripts/static-routes.mjs && npm run sbom",
     "preview": "vite preview",
-    "package": "npm run build && npm run sbom && node scripts/package-archive.mjs",
+    "package": "npm run build && node scripts/package-archive.mjs",
     "sbom": "node scripts/sbom.mjs",
     "test": "vitest run",
     "lint": "eslint .",

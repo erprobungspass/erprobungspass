@@ -42,6 +42,7 @@ const BEREICHE: Record<string, string> = {
 
 const z: string[] = [];
 
+// REUSE-IgnoreStart
 z.push(
   "<!--",
   "SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)",
@@ -55,6 +56,7 @@ z.push(
   "## Fallarten",
   "",
 );
+// REUSE-IgnoreEnd
 
 for (const fa of FALLARTEN) {
   z.push(`### ${fa.titel}`, "", fa.beschreibung, "");

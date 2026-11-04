@@ -43,6 +43,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Lizenzangaben (REUSE)
+        uses: fsfe/reuse-action@v5
+
       - name: REGELWERK.md ist aktuell
         run: |
           npm run regelwerk

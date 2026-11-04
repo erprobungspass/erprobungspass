@@ -797,4 +797,3 @@ Fundstelle: Artikel 32 Absatz 1 der Verordnung (EU) 2016/679 (Sicherheit der Ver
 Die Dienststelle stellt sicher, dass die Nutzenden ausreichend geschult sind; die Unterlagen sind Grundlage der Einweisung.
 
 Fundstelle: Artikel 4 der Verordnung (EU) 2024/1689 (KI-Kompetenz der bedienenden Personen)
-
