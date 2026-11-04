@@ -45,6 +45,9 @@ Tag gesetzt.
 - Jede neue Datei braucht Lizenzangaben nach REUSE: entweder einen Kopf mit
   `SPDX-FileCopyrightText` und `SPDX-License-Identifier` oder einen Eintrag in
   `REUSE.toml`. `reuse lint` muss durchlaufen.
+- Die von shadcn/ui übernommenen Dateien sind in `REUSE.toml` einzeln
+  aufgeführt. Auch eine neue Datei unter `src/components/ui/` braucht deshalb
+  einen eigenen EUPL-Kopf. Nur unverändert Übernommenes kommt in die Liste.
 - Kommt eine Abhängigkeit mit einer bisher unbekannten Lizenz hinzu, gehört
   deren unveränderter SPDX-Text nach `vendor/spdx-licenses/`. Sonst bricht
   `npm run sbom` ab.
