@@ -160,5 +160,5 @@ for (const p of CHECKLISTENPUNKTE) {
   z.push(`### ${p.was}`, "", p.warum, "", `Fundstelle: ${p.fundstelle}`, "");
 }
 
-writeFileSync("REGELWERK.md", `${z.join("\n")}\n`, "utf8");
+writeFileSync("REGELWERK.md", `${z.join("\n").trimEnd()}\n`, "utf8");
 console.log("REGELWERK.md erzeugt.");
