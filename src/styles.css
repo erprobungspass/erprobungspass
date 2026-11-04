@@ -1,0 +1,278 @@
+/* SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-marke-magenta: var(--marke-magenta);
+  --color-marke-tuerkis: var(--marke-tuerkis);
+  --color-marke-anthrazit: var(--marke-anthrazit);
+  --color-marke-softwhite: var(--marke-softwhite);
+  --font-sans: Arial, Helvetica, "Segoe UI", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.375rem;
+
+  /* Markenfarben */
+  --marke-magenta: oklch(0.6451 0.1909 358.1); /* #E34F8D */
+  --marke-tuerkis: oklch(0.8028 0.1196 190.3); /* #49D7D0 */
+  --marke-anthrazit: oklch(0.3182 0.0113 248.2); /* #2E3338 */
+  --marke-softwhite: oklch(0.9756 0.0026 106.4); /* #F7F7F5 */
+
+  --background: var(--marke-softwhite);
+  --foreground: var(--marke-anthrazit);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--marke-anthrazit);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--marke-anthrazit);
+  --primary: var(--marke-magenta);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(1 0 0);
+  --secondary-foreground: var(--marke-anthrazit);
+  --muted: oklch(0.955 0.002 106);
+  --muted-foreground: oklch(0.48 0.008 248);
+  --accent: oklch(0.955 0.004 190);
+  --accent-foreground: var(--marke-anthrazit);
+  --destructive: oklch(0.391 0.1245 17.9);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.885 0.003 248);
+  --input: oklch(0.82 0.004 248);
+  --ring: var(--marke-tuerkis);
+
+  /* Ampel: bewusst außerhalb der Markenfarben, damit Rot nicht mit Magenta
+     verwechselt wird. Zusätzlich zur Farbe stets Wort und eigene Rahmenform. */
+  --ampel-rot: oklch(0.391 0.1245 17.9);
+  --ampel-rot-flaeche: oklch(0.968 0.012 20);
+  --ampel-gelb: oklch(0.5078 0.108 73.3);
+  --ampel-gelb-flaeche: oklch(0.972 0.025 85);
+  --ampel-gruen: oklch(0.3925 0.0896 152.5);
+  --ampel-gruen-flaeche: oklch(0.967 0.02 152);
+
+  --chart-1: var(--marke-magenta);
+  --chart-2: var(--marke-tuerkis);
+  --chart-3: var(--marke-anthrazit);
+  --chart-4: oklch(0.5078 0.108 73.3);
+  --chart-5: oklch(0.3925 0.0896 152.5);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: var(--marke-anthrazit);
+  --sidebar-primary: var(--marke-magenta);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.955 0.004 190);
+  --sidebar-accent-foreground: var(--marke-anthrazit);
+  --sidebar-border: oklch(0.885 0.003 248);
+  --sidebar-ring: var(--marke-tuerkis);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    font-family: Arial, Helvetica, "Segoe UI", system-ui, sans-serif;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    line-height: 1.65;
+  }
+
+  :is(input, textarea, select, button, a, [tabindex]):focus-visible {
+    outline: 2px solid var(--marke-tuerkis);
+    outline-offset: 2px;
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--marke-tuerkis);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--marke-tuerkis) 45%, transparent);
+  }
+}
+
+/* Kopfzeile: Anthrazit mit schmaler Magenta-Linie */
+@utility kopfzeile {
+  background-color: var(--marke-anthrazit);
+  color: oklch(1 0 0);
+  border-bottom: 3px solid var(--marke-magenta);
+}
+
+/* Ampelflächen am Bildschirm: eigene Farben und je Stufe eigene Rahmenform */
+@utility ampel-rot {
+  border: 3px double var(--ampel-rot);
+  border-radius: 0;
+  background-color: var(--ampel-rot-flaeche);
+  color: var(--ampel-rot);
+}
+
+@utility ampel-gelb {
+  border: 2px dashed var(--ampel-gelb);
+  border-radius: 0.375rem;
+  background-color: var(--ampel-gelb-flaeche);
+  color: var(--ampel-gelb);
+}
+
+@utility ampel-gruen {
+  border: 2px solid var(--ampel-gruen);
+  border-radius: 1.25rem;
+  background-color: var(--ampel-gruen-flaeche);
+  color: var(--ampel-gruen);
+}
+
+/* Druckausgabe: nur das Dokument, A4-Layout, zurückhaltend in Anthrazit */
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #2e3338;
+    font-size: 10.5pt;
+  }
+
+  main {
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dokument {
+    border: none;
+    padding: 0;
+    max-width: none;
+    background: #fff;
+    color: #2e3338;
+  }
+
+  /* Magenta ausschließlich als schmale Linie im Kopf und in der Fußzeile */
+  .dokument-kopf {
+    border-bottom: 2pt solid #e34f8d;
+  }
+
+  .dokument-fuss {
+    border-top: 0.5pt solid #e34f8d;
+  }
+
+  /* Ampel im Druck: Wort mit Rahmen, keine Farbfläche */
+  .ampel-rot,
+  .ampel-gelb,
+  .ampel-gruen {
+    background: none !important;
+    color: #2e3338 !important;
+    border: 1pt solid #2e3338 !important;
+    border-radius: 0 !important;
+  }
+
+  .dokument section,
+  .dokument table,
+  .dokument tr,
+  .break-inside-avoid {
+    break-inside: avoid;
+  }
+
+  .dokument table.protokoll-tabelle {
+    break-inside: auto;
+  }
+
+  .dokument .protokoll-verlauf {
+    break-inside: auto;
+  }
+
+  .protokoll-tabelle thead {
+    display: table-header-group;
+  }
+
+  .protokoll-tabelle tbody {
+    display: table-row-group;
+  }
+
+  .protokoll-tabelle tr {
+    break-inside: avoid;
+  }
+
+  .page-break-before {
+    break-before: page;
+  }
+
+  .dokument h1,
+  .dokument h2 {
+    break-after: avoid;
+  }
+
+  /* Ankreuzkästchen: im Schwarzweißdruck sichtbar */
+  .kaestchen {
+    width: 4mm;
+    height: 4mm;
+    border: 0.8pt solid #2e3338 !important;
+    background: #fff !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

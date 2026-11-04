@@ -1,0 +1,81 @@
+# SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+# SPDX-License-Identifier: EUPL-1.2
+
+name: Release
+
+on:
+  push:
+    # Kalenderfassung YYYY.MM.NN, mit oder ohne führendes "v".
+    tags:
+      - "v[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
+      - "[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Archiv bauen und veröffentlichen
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typen, Lint und Tests
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          npm test
+
+      - name: Fassung aus dem Tag übernehmen
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if ! printf '%s' "$VERSION" | grep -qE '^[0-9]{4}\.(0[1-9]|1[0-2])\.[0-9]{2}$'; then
+            echo "Tag '$GITHUB_REF_NAME' entspricht nicht YYYY.MM.NN." >&2
+            exit 1
+          fi
+          # NN zählt die Releases des Monats; Jahr und Monat müssen zum Tag passen.
+          if [ "${VERSION%%.*}.$(printf '%s' "$VERSION" | cut -d. -f2)" != "$(date -u +%Y.%m)" ]; then
+            echo "Hinweis: $VERSION liegt nicht im laufenden Monat ($(date -u +%Y.%m))."
+          fi
+          npm pkg set version="$VERSION"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Archiv erzeugen
+        run: npm run package
+
+      - name: Prüfsumme erzeugen
+        working-directory: release
+        run: sha256sum *.tar.gz *.sbom.json > SHA256SUMS
+
+      - name: Beschreibung schreiben
+        run: |
+          cat > release/NOTES.md <<'NOTES'
+          Statisches Build-Ergebnis des Erprobungspasses.
+
+          Installation: Archiv in das Wurzelverzeichnis eines Webservers
+          entpacken. Es wird keine Serverlaufzeit benötigt. Die enthaltene
+          `.htaccess` gilt für Apache mit `AllowOverride All`.
+
+          Für die Auslieferung in einem Unterverzeichnis muss die Anwendung
+          mit `VITE_BASE_PATH=/pfad npm run build` selbst gebaut werden.
+
+          Die Stückliste (CycloneDX) liegt als `sbom.json` im Archiv und
+          zusätzlich als eigene Datei am Release.
+          NOTES
+
+      - name: Release anlegen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file release/NOTES.md \
+            release/*.tar.gz release/*.sbom.json release/SHA256SUMS
