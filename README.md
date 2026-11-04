@@ -147,6 +147,21 @@ Das Tag darf auch ohne führendes `v` gesetzt werden. Die Fassung in
 `package.json` wird im Ablauf aus dem Tag übernommen, sie muss vorher nicht
 von Hand gepflegt werden.
 
+### Webspace
+
+Im Anschluss an das Release überträgt der Ablauf `dist/` per `scp` in das
+Wurzelverzeichnis `/public_html` eines Hetzner-Webspace. Dafür müssen drei
+Secrets gesetzt sein:
+
+| Secret               | Inhalt                          |
+| -------------------- | ------------------------------- |
+| `HETZNER_DEPLOY_KEY` | privater SSH-Schlüssel für SFTP |
+| `HETZNER_SERVER`     | Hostname des Webspace           |
+| `HETZNER_USERNAME`   | Benutzername des Webspace       |
+
+Alte Dateien bleiben dabei im Ziel liegen; es wird nur überschrieben und
+ergänzt.
+
 Jeder Push und jeder Pull Request durchläuft zusätzlich die Prüfungen aus
 `.github/workflows/ci.yml`: Typprüfung, Lint, Tests, Build und der Abgleich,
 dass `REGELWERK.md` zum Regelkern passt.

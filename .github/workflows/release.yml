@@ -82,3 +82,17 @@ jobs:
             --title "$GITHUB_REF_NAME" \
             --notes-file release/NOTES.md \
             release/*.tar.gz release/*.sbom.json release/SHA256SUMS
+
+      - name: Auf den Webspace übertragen
+        env:
+          DEPLOY_KEY: ${{ secrets.HETZNER_DEPLOY_KEY }}
+          SERVER: ${{ secrets.HETZNER_SERVER }}
+          USERNAME: ${{ secrets.HETZNER_USERNAME }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H "$SERVER" >> ~/.ssh/known_hosts
+          # dist/. überträgt den Inhalt samt .htaccess, nicht das Verzeichnis selbst.
+          scp -r -i ~/.ssh/id_deploy dist/. "$USERNAME@$SERVER:/public_html/"
