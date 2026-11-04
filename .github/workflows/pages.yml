@@ -1,0 +1,60 @@
+# SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+# SPDX-License-Identifier: EUPL-1.2
+
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bauen:
+    name: Build für GitHub Pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        # Project Pages liegen unter /<repo>; die Assets bleiben relativ,
+        # nur der Router braucht das Präfix.
+        env:
+          VITE_BASE_PATH: /erprobungspass
+        run: npm run build
+
+      - name: Jekyll abschalten
+        run: touch dist/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  veroeffentlichen:
+    name: Veröffentlichen
+    needs: bauen
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

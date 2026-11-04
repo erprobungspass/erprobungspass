@@ -114,6 +114,14 @@ VITE_BASE_PATH=/erprobungspass npm run build
 Die Anwendung lädt zur Laufzeit keine externen Ressourcen und funktioniert
 ohne Netzwerkverbindung.
 
+### GitHub Pages
+
+Jeder Push auf `main` baut und veröffentlicht den Stand unter
+<https://erprobungspass.github.io/erprobungspass/>. Weil Pages das Projekt in
+einem Unterverzeichnis ausliefert, baut der Ablauf mit
+`VITE_BASE_PATH=/erprobungspass`. Voraussetzung ist, dass unter
+Einstellungen → Pages als Quelle „GitHub Actions“ eingestellt ist.
+
 ### Fassungen und Veröffentlichung
 
 Die Fassung folgt dem Kalenderschema `YYYY.MM.NN`: Jahr, Monat und eine
