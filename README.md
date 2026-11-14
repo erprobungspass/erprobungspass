@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 SPDX-License-Identifier: EUPL-1.2
 -->
 
@@ -236,6 +236,63 @@ Paketen; von Hand gepflegt wird dort nichts.
 
 Das Vorhaben wird durch die Bundesagentur für Sprunginnovationen SPRIND im
 Rahmen der Mission „Deutschland, was geht?“ gefördert.
+
+## Zweck und Grenzen
+
+Der Erprobungspass ist ein regelbasiertes Hilfsmittel. Er strukturiert die
+Prüfung eines geplanten Technikeinsatzes und bereitet ein Freigabedokument vor,
+das die Behördenleitung unterschreibt.
+
+- Die Freigabe ist ein verwaltungsinterner Organisationsakt. Sie bindet die
+  Beschäftigten der Dienststelle, nicht die Aufsicht und nicht Dritte außerhalb
+  der Behörde.
+- Wer in einer Stelle freigeben darf, richtet sich nach deren eigener
+  Zuständigkeits- und Zeichnungsordnung. Der Pass ersetzt diese Ordnung nicht.
+- Datenschutzbeauftragte und Informationssicherheitsbeauftragte geben
+  Stellungnahmen ab. Die Entscheidung trifft die Behördenleitung.
+- Das Regelwerk bildet Bundesrecht und ausgewählte Landesvorgaben ab. Es prüft
+  keine Einzelfälle und ersetzt keine Rechtsberatung.
+- Die IEI Immersive Education Ideations UG (haftungsbeschränkt) stellt das
+  Regelwerk unentgeltlich bereit und wertet Rückmeldungen zum Regelwerk aus.
+  Entscheidung, Durchführung und Betrieb liegen allein bei der Dienststelle; die
+  IEI wirkt an Entscheidungen einzelner Stellen nicht mit und gibt keine
+  Zusicherung zur Rechtmäßigkeit im Einzelfall.
+
+## Bekannte Fehler und Einschränkungen
+
+- Landesvorgaben sind bisher nur für Bayern hinterlegt. Für andere Länder
+  erscheinen Platzhalter, die die Dienststelle selbst füllt.
+- „noch unklar“ wird für die Ableitung der Stellen vorsichtshalber wie „ja“
+  behandelt. Dadurch werden im Zweifel mehr Stellen beteiligt als nötig.
+- Die vorgeschlagene Fehlertoleranz von 10 Prozent ist ein Platzhalterwert. Die
+  Dienststelle muss ihn vor dem Start für ihr Werkzeug festlegen.
+
+Fehler im Regelwerk melden Sie bitte über die Issues des Repositoriums.
+
+## Änderungen am Regelwerk
+
+### 2026-11-13
+
+Nach der rechtlichen Gegenprüfung durch JUN Legal (Aktenvermerk vom 13.11.2026):
+
+- Die Behördenleitung unterschreibt in jeder Ampelfarbe; bei Grün war bisher
+  nur die Mitzeichnung genannt.
+- Datenschutzbeauftragte geben eine dokumentierte Stellungnahme statt einer
+  Freigabe ab (Artikel 38 und 39 DSGVO). Die Regel „ohne ISB keine
+  Unterschrift“ ist als Verfahrensregel der Dienststelle gekennzeichnet.
+- Abbruchkriterien geschärft: Fehlertoleranz als eigenes Feld, Abbruch erst bei
+  tatsächlicher Außenwirkung, Widerspruch nur durch Personalrat oder
+  Schwerbehindertenvertretung, Verlängerung nur nach erneuter Zeichnung,
+  Prüfung von Änderungen durch benannte Stellen, neues Kriterium für nicht
+  fristgerecht umgesetzte Auflagen, Verfahren für Feststellung und
+  Entscheidung.
+- Bei Rot werden keine Auflagen mehr vorbelegt.
+- „Offene Punkte“ sind vor der Inbetriebnahme zu klären, nicht vor der
+  Unterschrift.
+- Der Hinweis auf Artikel 5 Absatz 2 DSGVO erscheint nur noch bei
+  personenbezogenen Daten.
+- Klarstellung, dass die zivilrechtliche Haftung eines Anbieters bestehen
+  bleibt und die Organisationsverantwortung bei der Behördenleitung liegt.
 
 ## Hinweis
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -222,7 +222,7 @@ function Einrichtungsseite() {
 
         <div className="flex items-start justify-between gap-4 rounded-md border border-border p-4">
           <Label htmlFor="freigabe-datenschutz" className="font-normal">
-            Vor Beginn ist eine schriftliche Freigabe der Datenschutzbeauftragten erforderlich.
+            Vor Beginn ist eine dokumentierte Stellungnahme der oder des Datenschutzbeauftragten erforderlich.
           </Label>
           <Switch
             id="freigabe-datenschutz"

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 /**
@@ -25,6 +25,7 @@ import {
 import { ebeneText } from "@/data/ebenen";
 import {
   ABBRUCH_LEITSATZ,
+  ABBRUCH_VERFAHREN,
   AUSGANGSLAGE_ABSCHLUSS_TITEL,
   AUSGANGSLAGE_DOKUMENT_TITEL,
   AUSGANGSLAGE_FELDER,
@@ -45,6 +46,7 @@ import {
   FREIGABE_RECHTSGRUNDLAGE_TITEL,
   FREIGABE_VERANTWORTUNGSABSATZ,
   FREIGABE_ZWECKABSATZ,
+  FREIGABE_ZWECKABSATZ_DATENSCHUTZ,
   KEINE_ERHOEHTE_ANFORDERUNG,
   PROTOKOLL_ABBRUCH_TITEL,
   PROTOKOLL_EINLEITUNG,
@@ -421,7 +423,13 @@ export function freigabeDokument(
         ],
       });
     }
-    einordnungsblocks.push({ art: "absatz", text: FREIGABE_ZWECKABSATZ, klein: true });
+    einordnungsblocks.push({
+      art: "absatz",
+      text: ergebnis.signale.personenbezug
+        ? `${FREIGABE_ZWECKABSATZ} ${FREIGABE_ZWECKABSATZ_DATENSCHUTZ}`
+        : FREIGABE_ZWECKABSATZ,
+      klein: true,
+    });
   }
 
   const kurzbeschreibung: Block[] = [
@@ -513,6 +521,7 @@ export function freigabeDokument(
             titel: "Abbruchkriterien",
             blocks: [
               { art: "absatz", text: ABBRUCH_LEITSATZ, klein: true },
+              { art: "absatz", text: ABBRUCH_VERFAHREN, klein: true },
               {
                 art: "nummern",
                 punkte: daten.abbruchkriterien.filter((a) => a.trim() !== ""),
@@ -603,6 +612,7 @@ export function protokollDokument(daten: Erprobungsdaten): Dokument {
         titel: PROTOKOLL_ABBRUCH_TITEL,
         blocks: [
           { art: "absatz", text: ABBRUCH_LEITSATZ, klein: true },
+              { art: "absatz", text: ABBRUCH_VERFAHREN, klein: true },
           { art: "kaestchen", punkte: kriterien.map((a) => ({ text: a })) },
         ],
       },

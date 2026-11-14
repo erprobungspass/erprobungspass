@@ -1,11 +1,11 @@
 <!--
-SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 SPDX-License-Identifier: EUPL-1.2
 -->
 
 # Regelwerk des Erprobungspasses
 
-Fassung 2026-10-28. Diese Datei wird aus `src/data/regelwerk.ts`, `src/data/beteiligungen.ts` und `src/data/vorlagen.ts` erzeugt. Ändern Sie das Regelwerk im Quellcode und erzeugen Sie diese Fassung mit `bun run scripts/regelwerk-md.ts` neu.
+Fassung 2026-11-13. Diese Datei wird aus `src/data/regelwerk.ts`, `src/data/beteiligungen.ts` und `src/data/vorlagen.ts` erzeugt. Ändern Sie das Regelwerk im Quellcode und erzeugen Sie diese Fassung mit `bun run scripts/regelwerk-md.ts` neu.
 
 ## Fallarten
 
@@ -585,7 +585,7 @@ Eine Erprobung ist unter Auflagen möglich. Holen Sie die im nächsten Schritt g
 
 ### Grün (`gruen`)
 
-Eine Erprobung ist mit den Grundauflagen möglich. Lassen Sie das Freigabedokument durch die genannten Stellen mitzeichnen, halten Sie die Grundauflagen ein und werten Sie die Erprobung zum Ende der Geltungsdauer schriftlich aus.
+Eine Erprobung ist mit den Grundauflagen möglich. Lassen Sie das Freigabedokument durch die genannten Stellen mitzeichnen und legen Sie es der Behördenleitung zur Unterschrift vor; beginnen Sie erst nach ihrer schriftlichen Freigabe. Halten Sie die Grundauflagen ein und werten Sie die Erprobung zum Ende der Geltungsdauer schriftlich aus.
 
 ## Vorschläge zur Umgestaltung bei Rot
 
@@ -620,7 +620,7 @@ Eine Erprobung ist mit den Grundauflagen möglich. Lassen Sie das Freigabedokume
   Prüft: Rechtsgrundlage, Auftragsverarbeitung, Übermittlung in Drittländer, Eintrag im Verzeichnis der Verarbeitungstätigkeiten und die Erforderlichkeit einer Datenschutz-Folgenabschätzung.
 - Informationssicherheitsbeauftragte oder Informationssicherheitsbeauftragter (ISB)
   Prüft: Nachweise des Anbieters zur Informationssicherheit, Serverstandort, Anforderungen an den Betrieb und die technischen Vorgaben des Landes nach der technischen Vorprüfung.
-  Vorbedingung: Ohne Freigabe des ISB keine Unterschrift der Leitung.
+  Vorbedingung: Verfahrensregel der Dienststelle: Die Leitung unterschreibt erst, wenn die Stellungnahme des ISB vorliegt. Die Regel beruht auf einer Organisationsentscheidung des Hauses, nicht auf einer gesetzlichen Pflicht.
 - Personalrat — Es besteht Mitbestimmung bei technischen Einrichtungen, die zur Überwachung von Verhalten oder Leistung der Beschäftigten geeignet sind. Die Eignung genügt, eine Absicht ist nicht erforderlich.
   Prüft: Mitbestimmung bei technischen Einrichtungen, Inhalt und Erforderlichkeit einer Dienstvereinbarung sowie die Unterrichtung der Beschäftigten.
 - Schwerbehindertenvertretung und Gleichstellungsbeauftragte
@@ -634,11 +634,11 @@ Eine Erprobung ist mit den Grundauflagen möglich. Lassen Sie das Freigabedokume
 - Vergabestelle
   Prüft: Vergabeart und Ausschreibungspflicht nach dem Vergaberecht (Teil 4 des Gesetzes gegen Wettbewerbsbeschränkungen oberhalb der EU-Schwellenwerte, darunter Unterschwellenvergabeordnung oder Landesvergaberecht).
 - Behördenleitung
-  Prüft: Gesamtentscheidung über die Freigabe nach Vorliegen aller Beteiligungen, insbesondere der Freigabe des ISB.
+  Prüft: Gesamtentscheidung über die Freigabe nach Vorliegen aller Beteiligungen, insbesondere der Stellungnahme des ISB. Die Organisationsverantwortung, auch für technische und organisatorische Entscheidungen, bleibt bei der Behördenleitung.
 
 ## Technische Landesvorgaben
 
-Vorprüfung, ersetzt nicht die Freigabe des ISB.
+Vorprüfung, ersetzt nicht die Stellungnahme des ISB.
 
 ### Bayern
 
@@ -667,7 +667,7 @@ Für alle übrigen Länder: Landesvorgaben noch nicht hinterlegt.
 1. Die Erprobung wird ausschließlich mit erfundenen oder wirksam anonymisierten Daten durchgeführt; die Verwendung echter personenbezogener Daten bedarf einer vorherigen schriftlichen Begründung und der Zustimmung der Behördenleitung.
 2. Für jeden Arbeitstag der Erprobung ist eine namentlich benannte verantwortliche Person bestimmt, die für Rückfragen erreichbar ist und den Abbruch veranlassen kann.
 3. Zur Halbzeit der Geltungsdauer legt die verantwortliche Person einen schriftlichen Zwischenbericht über Verlauf, Auffälligkeiten und bereits erkennbare Risiken vor.
-4. Vor Beginn der Erprobung liegt die schriftliche Freigabe der oder des behördlichen Datenschutzbeauftragten vor und wird dem Freigabedokument beigefügt.
+4. Vor Beginn der Erprobung liegt eine dokumentierte Stellungnahme der oder des behördlichen Datenschutzbeauftragten vor. Die Behördenleitung nimmt sie zur Kenntnis und bezieht sie in ihre Abwägung ein; die Stellungnahme wird dem Freigabedokument beigefügt.
 5. Die Ergebnisse des Werkzeugs werden vor jeder Verwendung von einer fachkundigen Person geprüft; erkannte Fehler werden schriftlich festgehalten.
 
 ## Auflagen mit Auslösebedingung
@@ -690,15 +690,16 @@ Für alle übrigen Länder: Landesvorgaben noch nicht hinterlegt.
 Ein Abbruch ist ein reguläres Ergebnis der Erprobung und wird nicht als Fehlschlag bewertet.
 
 1. Die Erprobung wird abgebrochen, wenn personenbezogene Daten verarbeitet werden, die im Freigabedokument nicht vorgesehen sind.
-2. Die Erprobung wird abgebrochen, wenn das Werkzeug fehlerhafte Ergebnisse liefert, die nach außen wirksam geworden sind oder wirksam werden könnten.
-3. Die Erprobung wird abgebrochen, wenn eine beteiligte Stelle der Fortführung schriftlich widerspricht.
-4. Die Erprobung wird abgebrochen, wenn die festgelegte Geltungsdauer erreicht ist und keine erneute Einordnung nach dem Regelwerk vorliegt.
-5. Die Erprobung wird abgebrochen, wenn sich Funktionsumfang oder Datenverarbeitung des Werkzeugs während der Laufzeit ändern, ohne dass dies vorher geprüft wurde.
-6. Es tritt ein Datenschutzvorfall ein, der eine Meldung an die Aufsichtsbehörde erforderlich machen könnte. (nur bei personenbezogenen Daten)
+2. Die Erprobung wird abgebrochen, wenn das Werkzeug fehlerhafte Ergebnisse über die im Freigabedokument festgelegte Fehlertoleranz hinaus liefert oder wenn ein fehlerhaftes Ergebnis nach außen wirksam geworden ist.
+3. Die Erprobung wird abgebrochen, wenn der Personalrat oder die Schwerbehindertenvertretung der Fortführung schriftlich widerspricht. Einwände anderer beteiligter Stellen legt die verantwortliche Person der Behördenleitung vor; diese entscheidet binnen fünf Arbeitstagen über die Fortführung und hält ihre Entscheidung schriftlich fest.
+4. Die Erprobung endet mit Ablauf der Geltungsdauer. Ändert sich während der Laufzeit die Einordnung nach dem Regelwerk, ruht die Erprobung bis zur erneuten Zeichnung durch die Behördenleitung.
+5. Die Erprobung wird abgebrochen, wenn sich Funktionsumfang oder Datenverarbeitung des Werkzeugs während der Laufzeit ändern und die Informationssicherheit, bei personenbezogenen Daten zusätzlich die oder der Datenschutzbeauftragte, die Änderung nicht vor ihrem Einsatz geprüft und dies schriftlich festgehalten hat.
+6. Die Erprobung wird abgebrochen, wenn eine Auflage nicht bis zu der im Freigabedokument genannten Frist umgesetzt ist.
+7. Es tritt ein Datenschutzvorfall ein, der eine Meldung an die Aufsichtsbehörde erforderlich machen könnte. (nur bei personenbezogenen Daten)
 
 ## Geltungsdauer
 
-Eine Verlängerung der Geltungsdauer setzt eine erneute Einordnung nach dem Regelwerk voraus. Zulässig sind 1 bis 52 Wochen.
+Eine Verlängerung der Geltungsdauer setzt eine erneute Einordnung nach dem Regelwerk und eine erneute Zeichnung durch die Behördenleitung voraus. Zulässig sind 1 bis 52 Wochen.
 
 ## Dokumenten-Checkliste
 

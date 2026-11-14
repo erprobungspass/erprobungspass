@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -92,7 +92,7 @@ function Barrierefreiheit() {
         <h2 className="text-xl font-semibold">Rückmeldung</h2>
         <p>
           Sind Ihnen Barrieren aufgefallen, oder benötigen Sie Inhalte in einer anderen Form? Wenden
-          Sie sich an die Betreiberin, die Immersive Education Ideations uG (haftungsbeschränkt).
+          Sie sich an die Betreiberin, die IEI Immersive Education Ideations UG (haftungsbeschränkt).
           Die Rückmeldung wird geprüft, und Sie erhalten eine Antwort zum weiteren Vorgehen.
         </p>
         <p className="text-sm text-muted-foreground">

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 import { REGELWERK_VERSION } from "@/data/regelwerk";
@@ -45,7 +45,7 @@ export function leereDaten(): Erprobungsdaten {
     },
     antworten: {},
     beteiligungen: {},
-    verantwortung: { fachlich: "", technisch: "", annahmen: "", restrisiken: "" },
+    verantwortung: { fachlich: "", technisch: "", fehlertoleranz: "", annahmen: "", restrisiken: "" },
     auflagen: [...GRUNDAUFLAGEN],
     abbruchkriterien: [...ABBRUCHKRITERIEN],
     geltungsdauerWochen: GELTUNGSDAUER_WOCHEN_VORSCHLAG,

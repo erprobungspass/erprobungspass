@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 import type { Ampel, Fallart } from "@/data/regelwerk";
@@ -29,6 +29,8 @@ export interface Vorhaben {
 export interface Verantwortung {
   fachlich: string;
   technisch: string;
+  /** Fehlerbegriff und hingenommene Fehlertoleranz; Grundlage für Abbruchkriterium 2. */
+  fehlertoleranz: string;
   annahmen: string;
   restrisiken: string;
 }

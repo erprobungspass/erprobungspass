@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -115,7 +115,7 @@ function RootComponent() {
             Erklärung zur Barrierefreiheit
           </Link>
           <span className="text-muted-foreground">
-            Immersive Education Ideations uG (haftungsbeschränkt) · Lizenz EUPL-1.2
+            IEI Immersive Education Ideations UG (haftungsbeschränkt) · Lizenz EUPL-1.2
           </span>
         </nav>
       </footer>

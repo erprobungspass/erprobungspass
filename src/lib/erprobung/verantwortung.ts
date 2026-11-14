@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 /**
@@ -10,6 +10,7 @@ import { FRAGEN } from "@/data/regelwerk";
 import { ausgeloesteStellen } from "@/data/beteiligungen";
 import { KEINE_ERHOEHTE_ANFORDERUNG } from "@/data/vorlagen";
 import { einordnen } from "./bewertung";
+import { FEHLERTOLERANZ_VORSCHLAG } from "@/data/vorlagen";
 import type { Einordnung, Einrichtungsprofil, Erprobungsdaten, Verantwortung } from "./typen";
 
 function aufzaehlung(zeilen: string[]): string {
@@ -98,7 +99,11 @@ export function verantwortungVorbelegen(
     .join("\n");
   return {
     fachlich,
-    technisch: technisch ? aufzaehlung(technisch.split("\n")) : "",
+    technisch: aufzaehlung([
+      ...(technisch ? technisch.split("\n") : []),
+      "Behördenleitung: Organisationsverantwortung und Freigabe",
+    ]),
+    fehlertoleranz: FEHLERTOLERANZ_VORSCHLAG,
     annahmen: aufzaehlung(annahmen(ergebnis)),
     restrisiken: aufzaehlung(restrisiken(ergebnis)),
   };

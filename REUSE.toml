@@ -1,6 +1,6 @@
 version = 1
 SPDX-PackageName = "Erprobungspass"
-SPDX-PackageSupplier = "Immersive Education Ideations uG (haftungsbeschränkt)"
+SPDX-PackageSupplier = "IEI Immersive Education Ideations UG (haftungsbeschränkt)"
 
 # Unverändert von shadcn/ui übernommen. Die Dateien sind einzeln aufgeführt und
 # nicht über ein Muster erfasst: Sonst erbte jede später hier angelegte Datei
@@ -65,7 +65,7 @@ path = [
   "src/routeTree.gen.ts",
   "public/favicon.ico",
 ]
-SPDX-FileCopyrightText = "2026 Immersive Education Ideations uG (haftungsbeschränkt)"
+SPDX-FileCopyrightText = "2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)"
 SPDX-License-Identifier = "EUPL-1.2"
 
 [[annotations]]
@@ -80,7 +80,7 @@ path = [
   "public/robots.txt",
   "tsconfig.json",
 ]
-SPDX-FileCopyrightText = "2026 Immersive Education Ideations uG (haftungsbeschränkt)"
+SPDX-FileCopyrightText = "2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)"
 SPDX-License-Identifier = "CC0-1.0"
 
 # Unveränderte Lizenztexte der SPDX-Liste. Sie werden beim Build nach

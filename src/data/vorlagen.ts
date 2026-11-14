@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 /**
@@ -59,8 +59,13 @@ const GRUND: Auflagenvorlage[] = [
 
 export const GRUNDAUFLAGEN: string[] = GRUND.map((a) => a.text);
 
+/**
+ * Die oder der Datenschutzbeauftragte berät und überwacht, entscheidet aber
+ * nicht (Artikel 38 und 39 der Verordnung (EU) 2016/679). Verlangt wird daher
+ * eine Stellungnahme, keine Freigabe.
+ */
 export const AUFLAGE_FREIGABE_DATENSCHUTZ =
-  "Vor Beginn der Erprobung liegt die schriftliche Freigabe der oder des behördlichen Datenschutzbeauftragten vor und wird dem Freigabedokument beigefügt.";
+  "Vor Beginn der Erprobung liegt eine dokumentierte Stellungnahme der oder des behördlichen Datenschutzbeauftragten vor. Die Behördenleitung nimmt sie zur Kenntnis und bezieht sie in ihre Abwägung ein; die Stellungnahme wird dem Freigabedokument beigefügt.";
 
 const GELB: Auflagenvorlage[] = [
   {
@@ -214,14 +219,19 @@ export const BEDINGTE_ABBRUCHKRITERIEN: Zusatzauflage[] = [
 
 export const ABBRUCHKRITERIEN: string[] = [
   "Die Erprobung wird abgebrochen, wenn personenbezogene Daten verarbeitet werden, die im Freigabedokument nicht vorgesehen sind.",
-  "Die Erprobung wird abgebrochen, wenn das Werkzeug fehlerhafte Ergebnisse liefert, die nach außen wirksam geworden sind oder wirksam werden könnten.",
-  "Die Erprobung wird abgebrochen, wenn eine beteiligte Stelle der Fortführung schriftlich widerspricht.",
-  "Die Erprobung wird abgebrochen, wenn die festgelegte Geltungsdauer erreicht ist und keine erneute Einordnung nach dem Regelwerk vorliegt.",
-  "Die Erprobung wird abgebrochen, wenn sich Funktionsumfang oder Datenverarbeitung des Werkzeugs während der Laufzeit ändern, ohne dass dies vorher geprüft wurde.",
+  "Die Erprobung wird abgebrochen, wenn das Werkzeug fehlerhafte Ergebnisse über die im Freigabedokument festgelegte Fehlertoleranz hinaus liefert oder wenn ein fehlerhaftes Ergebnis nach außen wirksam geworden ist.",
+  "Die Erprobung wird abgebrochen, wenn der Personalrat oder die Schwerbehindertenvertretung der Fortführung schriftlich widerspricht. Einwände anderer beteiligter Stellen legt die verantwortliche Person der Behördenleitung vor; diese entscheidet binnen fünf Arbeitstagen über die Fortführung und hält ihre Entscheidung schriftlich fest.",
+  "Die Erprobung endet mit Ablauf der Geltungsdauer. Ändert sich während der Laufzeit die Einordnung nach dem Regelwerk, ruht die Erprobung bis zur erneuten Zeichnung durch die Behördenleitung.",
+  "Die Erprobung wird abgebrochen, wenn sich Funktionsumfang oder Datenverarbeitung des Werkzeugs während der Laufzeit ändern und die Informationssicherheit, bei personenbezogenen Daten zusätzlich die oder der Datenschutzbeauftragte, die Änderung nicht vor ihrem Einsatz geprüft und dies schriftlich festgehalten hat.",
+  "Die Erprobung wird abgebrochen, wenn eine Auflage nicht bis zu der im Freigabedokument genannten Frist umgesetzt ist.",
 ];
 
 export const ABBRUCH_LEITSATZ =
   "Ein Abbruch ist ein reguläres Ergebnis der Erprobung und wird nicht als Fehlschlag bewertet.";
+
+/** Verfahren beim Eintritt eines Abbruchkriteriums: wer feststellt, wer entscheidet, Frist, Dokumentation. */
+export const ABBRUCH_VERFAHREN =
+  "Den Eintritt eines Abbruchkriteriums stellt die verantwortliche Person fest und meldet ihn unverzüglich, spätestens am folgenden Arbeitstag, der Behördenleitung. Bis zur Entscheidung ruht die Nutzung des Werkzeugs. Die Behördenleitung entscheidet über den Abbruch; Feststellung, Entscheidung und Datum werden im Protokollrahmen festgehalten.";
 
 /** Geltungsdauer wird in Wochen angegeben. */
 export const GELTUNGSDAUER_WOCHEN_VORSCHLAG = 12;
@@ -229,7 +239,7 @@ export const GELTUNGSDAUER_WOCHEN_MIN = 1;
 export const GELTUNGSDAUER_WOCHEN_MAX = 52;
 
 export const GELTUNGSDAUER_HINWEIS =
-  "Eine Verlängerung der Geltungsdauer setzt eine erneute Einordnung nach dem Regelwerk voraus. Zulässig sind 1 bis 52 Wochen.";
+  "Eine Verlängerung der Geltungsdauer setzt eine erneute Einordnung nach dem Regelwerk und eine erneute Zeichnung durch die Behördenleitung voraus. Zulässig sind 1 bis 52 Wochen.";
 
 export const HAFTUNGSHINWEIS =
   "Der Erprobungspass ersetzt keine Rechtsberatung. Die Verantwortung für die Entscheidung verbleibt bei der Dienststelle.";
@@ -254,7 +264,7 @@ export const AMPEL_TEXTE: Record<Ampel, { wort: string; satz: string; vorgehen: 
     wort: "Grün",
     satz: "Eine Erprobung ist mit den Grundauflagen möglich.",
     vorgehen:
-      "Lassen Sie das Freigabedokument durch die genannten Stellen mitzeichnen, halten Sie die Grundauflagen ein und werten Sie die Erprobung zum Ende der Geltungsdauer schriftlich aus.",
+      "Lassen Sie das Freigabedokument durch die genannten Stellen mitzeichnen und legen Sie es der Behördenleitung zur Unterschrift vor; beginnen Sie erst nach ihrer schriftlichen Freigabe. Halten Sie die Grundauflagen ein und werten Sie die Erprobung zum Ende der Geltungsdauer schriftlich aus.",
   },
 };
 
@@ -287,8 +297,10 @@ export const ENTSCHEIDUNGSOPTIONEN = [
 ] as const;
 
 export function auflagenVorlage(ampel: Ampel, signale?: Signale): string[] {
+  // Bei Rot findet keine Erprobung statt; Auflagen für den laufenden Betrieb entfallen.
+  if (ampel === "rot") return [];
   const liste =
-    ampel === "gelb" || ampel === "rot"
+    ampel === "gelb"
       ? [
           ...GRUNDAUFLAGEN,
           ...GELB.filter((a) => !a.ausloeser || !signale || a.ausloeser(signale)).map(
@@ -317,10 +329,14 @@ export function abbruchkriterienVorlage(signale?: Signale): string[] {
 /* --- Textbausteine des Freigabedokuments --- */
 
 export const FREIGABE_ZWECKABSATZ =
-  "Dieses Dokument hält fest, auf welcher Grundlage die Dienststelle die Zulässigkeit der Erprobung beurteilt hat, welche Stellen beteiligt wurden und unter welchen Auflagen der Versuch stattfindet. Es dient dem Nachweis nach Artikel 5 Absatz 2 der Datenschutz-Grundverordnung.";
+  "Dieses Dokument hält fest, auf welcher Grundlage die Dienststelle die Zulässigkeit der Erprobung beurteilt hat, welche Stellen beteiligt wurden und unter welchen Auflagen der Versuch stattfindet.";
+
+/** Nur bei Verarbeitung personenbezogener Daten an den Zweckabsatz angehängt. */
+export const FREIGABE_ZWECKABSATZ_DATENSCHUTZ =
+  "Es trägt zum Nachweis nach Artikel 5 Absatz 2 der Datenschutz-Grundverordnung bei.";
 
 export const FREIGABE_VERANTWORTUNGSABSATZ =
-  "Die Verantwortung für den Einsatz und für Entscheidungen, die während der Erprobung getroffen werden, verbleibt bei der Dienststelle. Sie wird durch die Beteiligung eines Anbieters nicht berührt.";
+  "Die Verantwortung für den Einsatz und für Entscheidungen, die während der Erprobung getroffen werden, verbleibt bei der Dienststelle; die Organisationsverantwortung liegt bei der Behördenleitung. Sie wird durch die Beteiligung eines Anbieters nicht berührt. Eine eigenständige zivilrechtliche Haftung des Anbieters bleibt bestehen.";
 
 export const FREIGABE_RECHTSGRUNDLAGE_TITEL = "Vorschrift, auf die sich die Verarbeitung stützt";
 
@@ -530,7 +546,14 @@ export const VERANTWORTUNG_TITEL = "Verantwortlichkeiten und Restrisiken";
 
 export const VERANTWORTUNG_FELDER = [
   { schluessel: "fachlich", beschriftung: "Wer entscheidet fachlich" },
-  { schluessel: "technisch", beschriftung: "Wer entscheidet technisch und organisatorisch" },
+  {
+    schluessel: "technisch",
+    beschriftung: "Wer prüft technisch und organisatorisch (die Organisationsverantwortung bleibt bei der Behördenleitung)",
+  },
+  {
+    schluessel: "fehlertoleranz",
+    beschriftung: "Was als fehlerhaftes Ergebnis gilt und welche Fehlertoleranz hingenommen wird",
+  },
   { schluessel: "annahmen", beschriftung: "Annahmen, auf denen diese Einordnung beruht" },
   {
     schluessel: "restrisiken",
@@ -538,21 +561,24 @@ export const VERANTWORTUNG_FELDER = [
   },
 ] as const;
 
+export const FEHLERTOLERANZ_VORSCHLAG =
+  "Als fehlerhaft gilt ein Ergebnis, das eine fachkundige Person bei der Prüfung verwerfen oder wesentlich berichtigen muss. Hingenommen wird ein Anteil von höchstens 10 Prozent der geprüften Ergebnisse; die Dienststelle legt den Wert vor dem Start fest.";
+
 export const VERANTWORTUNG_LEITSATZ =
   "Diese Aufstellung ersetzt keine Rechtsberatung. Sie macht nachvollziehbar, worauf die Entscheidung beruht und welche Risiken bewusst in Kauf genommen werden.";
 
 export const VERANTWORTUNG_HINWEIS =
-  "Die vier Felder sind aus Ihren Antworten vorbelegt. Sie können jedes Feld ändern und ergänzen.";
+  "Die Felder sind aus Ihren Antworten vorbelegt. Sie können jedes Feld ändern und ergänzen.";
 
 /* --- „noch unklar“ und offene Punkte (Schritt 2 und Freigabedokument) --- */
 
 export const UNKLAR_HINWEIS =
-  "Bei jeder Ja-Nein-Frage können Sie „noch unklar“ wählen. Für die Ableitung der Stellen gilt das vorsichtshalber wie „ja“; die Frage erscheint im Freigabedokument unter „Offene Punkte vor dem Start“.";
+  "Bei jeder Ja-Nein-Frage können Sie „noch unklar“ wählen. Für die Ableitung der Stellen gilt das vorsichtshalber wie „ja“; die Frage erscheint im Freigabedokument unter „Offene Punkte vor der Inbetriebnahme“.";
 
-export const OFFENE_PUNKTE_TITEL = "Offene Punkte vor dem Start";
+export const OFFENE_PUNKTE_TITEL = "Offene Punkte vor der Inbetriebnahme";
 
 export const OFFENE_PUNKTE_EINLEITUNG =
-  "Die folgenden Punkte sind mit „noch unklar“ beantwortet. Sie sind vor dem Start zu klären; tragen Sie die Zuständigkeit und das Datum der Klärung ein.";
+  "Die folgenden Punkte sind mit „noch unklar“ beantwortet. Die Einordnung legt für sie vorsichtshalber die strengere Antwort zugrunde; das Freigabedokument kann deshalb unterschrieben werden. Das Werkzeug wird erst in Betrieb genommen, wenn alle Punkte geklärt sind. Tragen Sie die Zuständigkeit und das Datum der Klärung ein.";
 
 /* --- Laufzettel --- */
 

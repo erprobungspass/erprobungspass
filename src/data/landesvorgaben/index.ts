@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 /**
@@ -26,7 +26,7 @@ export const LANDESVORGABEN_FEHLEN = "Landesvorgaben noch nicht hinterlegt";
 
 export const VORPRUEFUNG_TITEL = "Technische Vorprüfung für den ISB";
 
-export const VORPRUEFUNG_KENNZEICHNUNG = "Vorprüfung, ersetzt nicht die Freigabe des ISB.";
+export const VORPRUEFUNG_KENNZEICHNUNG = "Vorprüfung, ersetzt nicht die Stellungnahme des ISB.";
 
 export type Vorpruefstand = "erfuellt" | "nicht_erfuellt" | "unklar";
 

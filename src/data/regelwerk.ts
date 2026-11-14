@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 /**
@@ -13,7 +13,7 @@
 import type { NationaleFundstelle } from "@/data/ebenen";
 import type { Antworten, Signale } from "@/lib/erprobung/typen";
 
-export const REGELWERK_VERSION = "2026-10-28";
+export const REGELWERK_VERSION = "2026-11-13";
 
 /** Datum, ab dem die Anforderungen an Hochrisiko-Systeme einzuhalten sind. */
 export const GELTUNG_HOCHRISIKO = "2027-12-02";

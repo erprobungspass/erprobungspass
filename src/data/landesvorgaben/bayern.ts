@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 /**
  * Allgemein geltende technische Vorgaben für Kommunen und Behörden in Bayern.
  * Die Einträge sind als zu prüfende Punkte gefasst; sie bilden eine
- * Vorprüfung und ersetzen nicht die Freigabe des ISB.
+ * Vorprüfung und ersetzen nicht die Stellungnahme des ISB.
  */
 
 import type { Landesvorgabe } from "./index";

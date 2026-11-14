@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -85,6 +85,8 @@ function Assistent() {
           ? {
               fachlich: gespeichert.verantwortung.fachlich || vorlage.fachlich,
               technisch: gespeichert.verantwortung.technisch || vorlage.technisch,
+              fehlertoleranz:
+                gespeichert.verantwortung.fehlertoleranz || vorlage.fehlertoleranz,
               annahmen: gespeichert.verantwortung.annahmen || vorlage.annahmen,
               restrisiken: gespeichert.verantwortung.restrisiken || vorlage.restrisiken,
             }
@@ -142,6 +144,7 @@ function Assistent() {
     const ergebnis = einordnen(d.vorhaben.fallart, d.antworten, profil);
     const liste = auflagenVorlage(ergebnis.ampel, ergebnis.signale);
     if (
+      ergebnis.ampel !== "rot" &&
       profil?.freigabeDatenschutzErforderlich &&
       ergebnis.signale.personenbezug &&
       !liste.includes(AUFLAGE_FREIGABE_DATENSCHUTZ)
@@ -172,6 +175,7 @@ function Assistent() {
         naechste.verantwortung = {
           fachlich: d.verantwortung.fachlich || vorlage.fachlich,
           technisch: d.verantwortung.technisch || vorlage.technisch,
+          fehlertoleranz: d.verantwortung.fehlertoleranz || vorlage.fehlertoleranz,
           annahmen: d.verantwortung.annahmen || vorlage.annahmen,
           restrisiken: d.verantwortung.restrisiken || vorlage.restrisiken,
         };

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Immersive Education Ideations uG (haftungsbeschränkt)
+// SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
 /**
@@ -174,7 +174,8 @@ export const STELLEN: Stelle[] = [
     ausloeser: () => true,
     begruendung: () =>
       `Die Informationssicherheit ist bei jeder Erprobung technischer Systeme zu beteiligen.${ausgeloestDurch([])}`,
-    vorbedingung: "Ohne Freigabe des ISB keine Unterschrift der Leitung.",
+    vorbedingung:
+      "Verfahrensregel der Dienststelle: Die Leitung unterschreibt erst, wenn die Stellungnahme des ISB vorliegt. Die Regel beruht auf einer Organisationsentscheidung des Hauses, nicht auf einer gesetzlichen Pflicht.",
     pruefgegenstand:
       "Nachweise des Anbieters zur Informationssicherheit, Serverstandort, Anforderungen an den Betrieb und die technischen Vorgaben des Landes nach der technischen Vorprüfung.",
   },
@@ -294,7 +295,7 @@ export const STELLEN: Stelle[] = [
     ausloeser: () => true,
     begruendung: () => `Die Behördenleitung entscheidet über die Freigabe.${ausgeloestDurch([])}`,
     pruefgegenstand:
-      "Gesamtentscheidung über die Freigabe nach Vorliegen aller Beteiligungen, insbesondere der Freigabe des ISB.",
+      "Gesamtentscheidung über die Freigabe nach Vorliegen aller Beteiligungen, insbesondere der Stellungnahme des ISB. Die Organisationsverantwortung, auch für technische und organisatorische Entscheidungen, bleibt bei der Behördenleitung.",
   },
 ];
 
