@@ -548,7 +548,8 @@ export const VERANTWORTUNG_FELDER = [
   { schluessel: "fachlich", beschriftung: "Wer entscheidet fachlich" },
   {
     schluessel: "technisch",
-    beschriftung: "Wer prüft technisch und organisatorisch (die Organisationsverantwortung bleibt bei der Behördenleitung)",
+    beschriftung:
+      "Wer prüft technisch und organisatorisch (die Organisationsverantwortung bleibt bei der Behördenleitung)",
   },
   {
     schluessel: "fehlertoleranz",

@@ -92,8 +92,9 @@ function Barrierefreiheit() {
         <h2 className="text-xl font-semibold">Rückmeldung</h2>
         <p>
           Sind Ihnen Barrieren aufgefallen, oder benötigen Sie Inhalte in einer anderen Form? Wenden
-          Sie sich an die Betreiberin, die IEI Immersive Education Ideations UG (haftungsbeschränkt).
-          Die Rückmeldung wird geprüft, und Sie erhalten eine Antwort zum weiteren Vorgehen.
+          Sie sich an die Betreiberin, die IEI Immersive Education Ideations UG
+          (haftungsbeschränkt). Die Rückmeldung wird geprüft, und Sie erhalten eine Antwort zum
+          weiteren Vorgehen.
         </p>
         <p className="text-sm text-muted-foreground">
           Bitte beschreiben Sie die betroffene Seite, das verwendete Hilfsmittel und die

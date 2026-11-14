@@ -222,7 +222,8 @@ function Einrichtungsseite() {
 
         <div className="flex items-start justify-between gap-4 rounded-md border border-border p-4">
           <Label htmlFor="freigabe-datenschutz" className="font-normal">
-            Vor Beginn ist eine dokumentierte Stellungnahme der oder des Datenschutzbeauftragten erforderlich.
+            Vor Beginn ist eine dokumentierte Stellungnahme der oder des Datenschutzbeauftragten
+            erforderlich.
           </Label>
           <Switch
             id="freigabe-datenschutz"

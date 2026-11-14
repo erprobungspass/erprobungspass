@@ -612,7 +612,7 @@ export function protokollDokument(daten: Erprobungsdaten): Dokument {
         titel: PROTOKOLL_ABBRUCH_TITEL,
         blocks: [
           { art: "absatz", text: ABBRUCH_LEITSATZ, klein: true },
-              { art: "absatz", text: ABBRUCH_VERFAHREN, klein: true },
+          { art: "absatz", text: ABBRUCH_VERFAHREN, klein: true },
           { art: "kaestchen", punkte: kriterien.map((a) => ({ text: a })) },
         ],
       },

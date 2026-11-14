@@ -85,8 +85,7 @@ function Assistent() {
           ? {
               fachlich: gespeichert.verantwortung.fachlich || vorlage.fachlich,
               technisch: gespeichert.verantwortung.technisch || vorlage.technisch,
-              fehlertoleranz:
-                gespeichert.verantwortung.fehlertoleranz || vorlage.fehlertoleranz,
+              fehlertoleranz: gespeichert.verantwortung.fehlertoleranz || vorlage.fehlertoleranz,
               annahmen: gespeichert.verantwortung.annahmen || vorlage.annahmen,
               restrisiken: gespeichert.verantwortung.restrisiken || vorlage.restrisiken,
             }
