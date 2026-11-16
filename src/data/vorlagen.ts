@@ -540,6 +540,44 @@ export function zusatzfragenHinweis(zahl: number): string {
   return `Ihre Antwort hat ${zahl} zusätzliche ${zahl === 1 ? "Frage" : "Fragen"} ergeben.`;
 }
 
+/**
+ * Rückmeldung unter einer Antwort, die Fragen ein- oder ausblendet. Nennt, wie
+ * viele Fragen neu erscheinen und wie viele entfallen, und in welchen anderen
+ * Abschnitten neue Fragen stehen.
+ */
+export function fragenAenderungHinweis(
+  neu: number,
+  entfallen: number,
+  andereAbschnitte: string[],
+): string {
+  const teile: string[] = [];
+  if (neu > 0) {
+    teile.push(
+      `Durch Ihre Antwort ${neu === 1 ? "erscheint 1 weitere Frage" : `erscheinen ${neu} weitere Fragen`}, farbig markiert.`,
+    );
+  }
+  if (andereAbschnitte.length > 0) {
+    teile.push(
+      `${andereAbschnitte.length === 1 ? "Im Abschnitt" : "In den Abschnitten"} ${andereAbschnitte.map((t) => `„${t}“`).join(", ")} kommen Fragen hinzu.`,
+    );
+  }
+  if (entfallen > 0) {
+    teile.push(
+      `${entfallen === 1 ? "1 Frage entfällt" : `${entfallen} Fragen entfallen`}, weil sie nach dieser Antwort nicht mehr nötig ${entfallen === 1 ? "ist" : "sind"}.`,
+    );
+  }
+  return teile.join(" ");
+}
+
+export const NEU_DURCH_ANTWORT = "Neu durch Ihre letzte Antwort";
+
+export function folgefrageText(frage: string): string {
+  return `Folgefrage zu „${frage}“`;
+}
+
+export const OFFEN_SPRUNG_HINWEIS =
+  "Ein Klick auf eine Frage öffnet den passenden Abschnitt und springt direkt zur Frage.";
+
 /* --- Verantwortlichkeiten und Restrisiken (Freigabedokument) --- */
 
 export const VERANTWORTUNG_TITEL = "Verantwortlichkeiten und Restrisiken";

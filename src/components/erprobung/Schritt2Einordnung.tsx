@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 IEI Immersive Education Ideations UG (haftungsbeschränkt)
 // SPDX-License-Identifier: EUPL-1.2
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -21,11 +21,15 @@ import {
   EINORDNUNG_OFFEN_TITEL,
   KEINE_ERHOEHTE_ANFORDERUNG,
   UNKLAR_HINWEIS,
+  NEU_DURCH_ANTWORT,
+  OFFEN_SPRUNG_HINWEIS,
   einordnungOffenText,
+  folgefrageText,
+  fragenAenderungHinweis,
   zeitanzeige,
-  zusatzfragenHinweis,
 } from "@/data/vorlagen";
 import {
+  FRAGEN,
   PRUEFABSCHNITTE,
   UNKLAR,
   UNKLAR_TEXT,
@@ -395,7 +399,24 @@ export function AmpelAnzeige({
 }
 
 /** Neutraler Zustand: solange Pflichtfragen offen sind, erscheint keine Ampel. */
-export function EinordnungOffen({ offen }: { offen: { id: string; text: string }[] }) {
+export function EinordnungOffen({
+  offen,
+  springen,
+}: {
+  offen: { id: string; text: string; abschnitt?: string | undefined }[];
+  springen?: (frageId: string) => void;
+}) {
+  // Nach Abschnitten gruppieren, damit man sieht, wo die Frage steht.
+  const gruppen: { titel: string; fragen: { id: string; text: string }[] }[] = [];
+  for (const f of offen) {
+    const titel = f.abschnitt ?? "";
+    let g = gruppen.find((x) => x.titel === titel);
+    if (!g) {
+      g = { titel, fragen: [] };
+      gruppen.push(g);
+    }
+    g.fragen.push(f);
+  }
   return (
     <section
       aria-labelledby="einordnung-offen-titel"
@@ -406,15 +427,29 @@ export function EinordnungOffen({ offen }: { offen: { id: string; text: string }
       </h3>
       <p className="mt-1 text-sm">{einordnungOffenText(offen.length)}</p>
       <h4 className="mt-3 text-sm font-semibold">{EINORDNUNG_OFFEN_LISTE}</h4>
-      <ul className="mt-1 list-disc space-y-1 pl-5 text-sm">
-        {offen.map((f) => (
-          <li key={f.id}>
-            <a href={`#frage-${f.id}`} className="underline underline-offset-4">
-              {f.text}
-            </a>
-          </li>
-        ))}
-      </ul>
+      {springen && <p className="mt-1 text-sm text-muted-foreground">{OFFEN_SPRUNG_HINWEIS}</p>}
+      {gruppen.map((g) => (
+        <div key={g.titel || "ohne"} className="mt-2">
+          {g.titel && <p className="text-sm font-medium">{g.titel}</p>}
+          <ul className="mt-1 list-disc space-y-1 pl-5 text-sm">
+            {g.fragen.map((f) => (
+              <li key={f.id}>
+                <a
+                  href={`#frage-${f.id}`}
+                  onClick={(e) => {
+                    if (!springen) return;
+                    e.preventDefault();
+                    springen(f.id);
+                  }}
+                  className="underline underline-offset-4"
+                >
+                  {f.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </section>
   );
 }
@@ -425,18 +460,39 @@ function Fragefeld({
   antworten,
   profil,
   aendern,
-  neueFragen,
+  aenderungHinweis,
+  neu,
+  ziel,
 }: {
   frage: Frage;
   antworten: Antworten;
   profil: Einrichtungsprofil | null;
   aendern: (id: string, wert: string | string[]) => void;
-  neueFragen: number | null;
+  aenderungHinweis: string | null;
+  neu: boolean;
+  ziel: boolean;
 }) {
   const wert = antworten[frage.id];
   const kuenftig = frage.geltungAb !== undefined && !giltSchon(frage.geltungAb);
+  const elternfrage = frage.nurWenn ? FRAGEN.find((f) => f.id === frage.nurWenn?.frageId) : null;
   return (
-    <div id={`frage-${frage.id}`} className="scroll-mt-4 space-y-2">
+    <div
+      id={`frage-${frage.id}`}
+      className={cn(
+        "scroll-mt-4 space-y-2 rounded-md transition-colors",
+        elternfrage && "ml-4 border-l-2 border-border pl-4",
+        neu && "border-l-4 border-primary bg-secondary/60 p-3 pl-4",
+        ziel && "ring-2 ring-primary ring-offset-2",
+      )}
+    >
+      {neu && (
+        <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+          {NEU_DURCH_ANTWORT}
+        </p>
+      )}
+      {elternfrage && (
+        <p className="text-xs text-muted-foreground">{folgefrageText(elternfrage.text)}</p>
+      )}
       {frage.einleitung && (
         <p className="rounded-md border border-border bg-secondary p-3 text-sm">
           {frage.einleitung}
@@ -491,9 +547,9 @@ function Fragefeld({
           )}
         </div>
       </fieldset>
-      {neueFragen !== null && (
+      {aenderungHinweis && (
         <p role="status" className="text-sm font-medium">
-          {zusatzfragenHinweis(neueFragen)}
+          {aenderungHinweis}
         </p>
       )}
     </div>
@@ -513,7 +569,12 @@ export function Schritt2Einordnung({ vorhaben, antworten, profil, aendern }: Pro
 
   const [gewaehlt, setGewaehlt] = useState(0);
   const [hoechster, setHoechster] = useState(0);
-  const [neueFragen, setNeueFragen] = useState<{ frageId: string; anzahl: number } | null>(null);
+  const [aenderung, setAenderung] = useState<{
+    frageId: string;
+    neu: string[];
+    hinweis: string;
+  } | null>(null);
+  const [ziel, setZiel] = useState<string | null>(null);
 
   const index = Math.min(gewaehlt, Math.max(abschnitte.length - 1, 0));
   const aktuell = abschnitte[index];
@@ -529,12 +590,53 @@ export function Schritt2Einordnung({ vorhaben, antworten, profil, aendern }: Pro
    * wird.
    */
   const antwortSetzen = (id: string, wert: string | string[]) => {
-    const vorher = sichtbareFragen(vorhaben.fallart, antworten).map((f) => f.id);
+    const vorher = sichtbareFragen(vorhaben.fallart, antworten);
     const nachher = sichtbareFragen(vorhaben.fallart, { ...antworten, [id]: wert });
-    const anzahl = nachher.filter((f) => !vorher.includes(f.id)).length;
-    setNeueFragen(anzahl > 0 ? { frageId: id, anzahl } : null);
+    const vorherIds = vorher.map((f) => f.id);
+    const nachherIds = nachher.map((f) => f.id);
+    const neu = nachher.filter((f) => !vorherIds.includes(f.id));
+    const entfallen = vorher.filter((f) => !nachherIds.includes(f.id)).length;
+    const eigene = FRAGEN.find((f) => f.id === id);
+    const eigenerAbschnitt = eigene ? pruefabschnittVonFrage(eigene) : null;
+    const andere = [
+      ...new Set(
+        neu
+          .map((f) => pruefabschnittVonFrage(f))
+          .filter((a) => a !== eigenerAbschnitt)
+          .map((a) => PRUEFABSCHNITTE.find((p) => p.id === a)?.titel ?? ""),
+      ),
+    ].filter(Boolean);
+    const imAbschnitt = neu.filter((f) => pruefabschnittVonFrage(f) === eigenerAbschnitt).length;
+    setAenderung(
+      neu.length > 0 || entfallen > 0
+        ? {
+            frageId: id,
+            neu: neu.map((f) => f.id),
+            hinweis: fragenAenderungHinweis(imAbschnitt, entfallen, andere),
+          }
+        : null,
+    );
+    setZiel(null);
     aendern(id, wert);
   };
+
+  /** Öffnet den Abschnitt einer offenen Frage und springt zu ihr. */
+  const springen = (frageId: string) => {
+    const ziel = abschnitte.findIndex((a) => a.fragen.some((f) => f.id === frageId));
+    if (ziel < 0) return;
+    wechseln(ziel);
+    setZiel(frageId);
+  };
+
+  useEffect(() => {
+    if (!ziel) return;
+    const el = document.getElementById(`frage-${ziel}`);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.querySelector<HTMLElement>("input, textarea, select")?.focus({ preventScroll: true });
+    const t = window.setTimeout(() => setZiel(null), 4000);
+    return () => window.clearTimeout(t);
+  }, [ziel, index]);
 
   const beantwortet = fragen.length - offen.length;
   const nummer = Math.min(Math.max(beantwortet + 1, 1), Math.max(fragen.length, 1));
@@ -593,7 +695,9 @@ export function Schritt2Einordnung({ vorhaben, antworten, profil, aendern }: Pro
                 antworten={antworten}
                 profil={profil}
                 aendern={antwortSetzen}
-                neueFragen={neueFragen?.frageId === frage.id ? neueFragen.anzahl : null}
+                aenderungHinweis={aenderung?.frageId === frage.id ? aenderung.hinweis : null}
+                neu={aenderung?.neu.includes(frage.id) ?? false}
+                ziel={ziel === frage.id}
               />
             ))}
             {aktuell.id === "it_sicherheit" && (
@@ -621,7 +725,14 @@ export function Schritt2Einordnung({ vorhaben, antworten, profil, aendern }: Pro
 
       <div className="border-t border-border pt-6">
         {offen.length > 0 ? (
-          <EinordnungOffen offen={offen.map((f) => ({ id: f.id, text: f.text }))} />
+          <EinordnungOffen
+            offen={offen.map((f) => ({
+              id: f.id,
+              text: f.text,
+              abschnitt: PRUEFABSCHNITTE.find((p) => p.id === pruefabschnittVonFrage(f))?.titel,
+            }))}
+            springen={springen}
+          />
         ) : (
           <AmpelAnzeige
             ampel={ergebnis.ampel}
