@@ -109,58 +109,90 @@ function Baustein({ block }: { block: Block }) {
 
     case "tabelle":
       return (
-        <table className="w-full border-collapse text-sm">
-          {block.beschriftung && (
-            <caption className="text-left text-sm font-medium">{block.beschriftung}</caption>
-          )}
-          <thead>
-            <tr>
-              {block.spalten.map((s) => (
-                <th key={s} scope="col" className="border border-border p-2 text-left">
-                  {s}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {block.zeilen.map((zeile, i) => (
-              <tr key={i}>
-                {zeile.map((zelle, j) => (
-                  <td key={j} className="h-12 border border-border p-2 align-top">
-                    {zelle.text ? zelle.text : <Linie />}
-                    {zelle.zusatz && (
-                      <span className="block text-xs text-muted-foreground">{zelle.zusatz}</span>
-                    )}
-                  </td>
+        <div
+          role="region"
+          aria-label={block.beschriftung ?? "Tabelle"}
+          tabIndex={0}
+          className="tabelle-rahmen overflow-x-auto"
+        >
+          <table className="w-full min-w-[32rem] border-collapse text-sm">
+            {block.beschriftung && (
+              <caption className="text-left text-sm font-medium">{block.beschriftung}</caption>
+            )}
+            <thead>
+              <tr>
+                {block.spalten.map((s) => (
+                  <th key={s} scope="col" className="border border-border p-2 text-left">
+                    {s}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {block.zeilen.map((zeile, i) => (
+                <tr key={i}>
+                  {zeile.map((zelle, j) => {
+                    const inhalt = (
+                      <>
+                        {zelle.text ? zelle.text : <Linie />}
+                        {zelle.zusatz && (
+                          <span className="block text-xs text-muted-foreground">
+                            {zelle.zusatz}
+                          </span>
+                        )}
+                      </>
+                    );
+                    // Die erste Spalte benennt die Zeile (BITV 9.1.3.1e).
+                    return j === 0 && zelle.text ? (
+                      <th
+                        key={j}
+                        scope="row"
+                        className="h-12 border border-border p-2 text-left align-top font-normal"
+                      >
+                        {inhalt}
+                      </th>
+                    ) : (
+                      <td key={j} className="h-12 border border-border p-2 align-top">
+                        {inhalt}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       );
 
     case "leertabelle":
       return (
-        <table className="protokoll-tabelle w-full border-collapse text-sm">
-          <thead>
-            <tr>
-              {block.spalten.map((s) => (
-                <th key={s} scope="col" className="border border-border p-2 text-left">
-                  {s}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {Array.from({ length: block.zeilen }).map((_, zeile) => (
-              <tr key={zeile}>
+        <div
+          role="region"
+          aria-label="Tabelle zum Ausfüllen"
+          tabIndex={0}
+          className="tabelle-rahmen overflow-x-auto"
+        >
+          <table className="protokoll-tabelle w-full min-w-[32rem] border-collapse text-sm">
+            <thead>
+              <tr>
                 {block.spalten.map((s) => (
-                  <td key={s} className="h-9 border border-border p-2" />
+                  <th key={s} scope="col" className="border border-border p-2 text-left">
+                    {s}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {Array.from({ length: block.zeilen }).map((_, zeile) => (
+                <tr key={zeile}>
+                  {block.spalten.map((s) => (
+                    <td key={s} className="h-9 border border-border p-2" />
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       );
 
     case "schreibfeld":
@@ -180,7 +212,7 @@ function Baustein({ block }: { block: Block }) {
     case "unterabschnitt":
       return (
         <div className="space-y-1">
-          <h3 className="font-medium">{block.titel}</h3>
+          <h5 className="font-medium">{block.titel}</h5>
           <Bloecke blocks={block.blocks} />
         </div>
       );
@@ -190,7 +222,7 @@ function Baustein({ block }: { block: Block }) {
 function AbschnittAnsicht({ abschnitt }: { abschnitt: Abschnitt }) {
   return (
     <section className={cn("space-y-3 break-inside-avoid", abschnitt.klasse)}>
-      {abschnitt.titel && <h2 className="text-lg font-semibold">{abschnitt.titel}</h2>}
+      {abschnitt.titel && <h4 className="text-lg font-semibold">{abschnitt.titel}</h4>}
       <Bloecke blocks={abschnitt.blocks} />
     </section>
   );

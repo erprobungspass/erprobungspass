@@ -422,7 +422,7 @@ export function EinordnungOffen({
       aria-labelledby="einordnung-offen-titel"
       className="rounded-md border border-border bg-secondary p-4"
     >
-      <h3 id="einordnung-offen-titel" className="text-base font-semibold">
+      <h3 id="einordnung-offen-titel" tabIndex={-1} className="text-base font-semibold">
         {EINORDNUNG_OFFEN_TITEL}
       </h3>
       <p className="mt-1 text-sm">{einordnungOffenText(offen.length)}</p>

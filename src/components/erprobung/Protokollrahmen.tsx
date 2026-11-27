@@ -134,6 +134,7 @@ export function Protokollrahmen({ daten, profil, setzeRueckmeldungen, setzeEmpfa
           <input
             ref={dateiRef}
             type="file"
+            tabIndex={-1}
             accept=".xlsx,.ods,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.oasis.opendocument.spreadsheet"
             className="sr-only"
             aria-label="XLSX- oder ODS-Datei mit einem Protokoll auswählen"

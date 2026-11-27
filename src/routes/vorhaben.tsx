@@ -65,6 +65,8 @@ function Assistent() {
   const [profil, setProfil] = useState<Einrichtungsprofil | null>(null);
   const [geladen, setGeladen] = useState(false);
   const [wiederaufnahme, setWiederaufnahme] = useState<string | null>(null);
+  const [fehlendAnzeigen, setFehlendAnzeigen] = useState(false);
+  const fehlendRef = useRef<HTMLDivElement>(null);
   const dateiRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -204,6 +206,42 @@ function Assistent() {
     daten.vorhaben.bezeichnung.trim() !== "" &&
     geltungsdauerFehler(daten.geltungsdauerWochen, profil) === "";
   const veralteteFassung = daten.version !== REGELWERK_VERSION;
+  const dauerFehler = geltungsdauerFehler(daten.geltungsdauerWochen, profil);
+  // Fehlende Pflichtangaben in Schritt 1, mit Sprungziel (BITV 9.3.3.1 bis 9.3.3.3).
+  const fehlendSchritt1: { id: string; text: string }[] = [
+    ...(daten.vorhaben.fallart === null
+      ? [{ id: "fallart-titel", text: "Art des Vorhabens: bitte einen Fall auswählen" }]
+      : []),
+    ...(daten.vorhaben.bezeichnung.trim() === ""
+      ? [{ id: "bezeichnung", text: "Bezeichnung des Werkzeugs: bitte eintragen" }]
+      : []),
+    ...(dauerFehler ? [{ id: "geltungsdauer", text: `Geltungsdauer: ${dauerFehler}` }] : []),
+  ];
+  const zuFeld = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    const ziel =
+      id === "fallart-titel"
+        ? document.querySelector<HTMLElement>('[role="radiogroup"] [role="radio"]')
+        : el;
+    ziel?.focus({ preventScroll: true });
+  };
+  const weiter = () => {
+    if (daten.schritt === 1 && !schritt1Vollstaendig) {
+      setFehlendAnzeigen(true);
+      window.setTimeout(() => fehlendRef.current?.focus(), 0);
+      return;
+    }
+    if (daten.schritt === 2 && offen.length > 0) {
+      const liste = document.getElementById("einordnung-offen-titel");
+      liste?.scrollIntoView({ behavior: "smooth", block: "center" });
+      liste?.focus({ preventScroll: true });
+      return;
+    }
+    setFehlendAnzeigen(false);
+    zuSchritt(daten.schritt + 1);
+  };
   const offen = offeneFragen(daten.vorhaben.fallart, daten.antworten);
   const weiterHinweis =
     daten.schritt === 1 && !schritt1Vollstaendig
@@ -232,6 +270,7 @@ function Assistent() {
             <input
               ref={dateiRef}
               type="file"
+              tabIndex={-1}
               accept=".json,application/json"
               className="sr-only"
               aria-label="JSON-Datei mit einem Vorhaben auswählen"
@@ -265,8 +304,8 @@ function Assistent() {
       <main id="hauptinhalt" className="mx-auto max-w-5xl px-4 py-8">
         {daten.beispiel && (
           <div
-            role="status"
-            className="no-print mb-8 flex flex-wrap items-center justify-between gap-3 rounded-md border-2 border-marke-tuerkis bg-secondary p-4 text-sm"
+            role="note"
+            className="no-print mb-8 flex flex-wrap items-center justify-between gap-3 rounded-md border-2 border-marke-tuerkis-dunkel bg-secondary p-4 text-sm"
           >
             <p>{BEISPIEL_HINWEIS}</p>
             <Button
@@ -383,17 +422,44 @@ function Assistent() {
           </Button>
           {daten.schritt < 5 && (
             <Button
-              disabled={
-                (daten.schritt === 1 && !schritt1Vollstaendig) ||
-                (daten.schritt === 2 && offen.length > 0)
-              }
               aria-describedby={weiterHinweis ? "weiter-hinweis" : undefined}
-              onClick={() => zuSchritt(daten.schritt + 1)}
+              onClick={weiter}
             >
               Weiter
             </Button>
           )}
         </div>
+
+        {fehlendAnzeigen && daten.schritt === 1 && fehlendSchritt1.length > 0 && (
+          <div
+            ref={fehlendRef}
+            role="alert"
+            tabIndex={-1}
+            className="no-print mt-4 rounded-md border-2 border-destructive bg-card p-4 text-sm"
+          >
+            <p className="font-semibold">
+              {fehlendSchritt1.length === 1
+                ? "Eine Pflichtangabe fehlt noch:"
+                : `${fehlendSchritt1.length} Pflichtangaben fehlen noch:`}
+            </p>
+            <ul className="mt-2 list-disc space-y-1 pl-5">
+              {fehlendSchritt1.map((f) => (
+                <li key={f.id}>
+                  <a
+                    href={`#${f.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      zuFeld(f.id);
+                    }}
+                    className="underline underline-offset-4"
+                  >
+                    {f.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {weiterHinweis && (
           <p

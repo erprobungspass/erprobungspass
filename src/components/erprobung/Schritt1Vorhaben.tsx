@@ -42,6 +42,7 @@ function Feld({
   typ = "text",
   hinweis,
   platzhalter,
+  pflicht = false,
 }: {
   id: string;
   beschriftung: string;
@@ -50,14 +51,20 @@ function Feld({
   typ?: string;
   hinweis?: string;
   platzhalter?: string;
+  pflicht?: boolean;
 }) {
   return (
     <div className="space-y-1.5">
-      <Label htmlFor={id}>{beschriftung}</Label>
+      <Label htmlFor={id}>
+        {beschriftung}
+        {pflicht && <span className="ml-1 font-normal">(Pflichtfeld)</span>}
+      </Label>
       <Input
         id={id}
         type={typ}
         value={wert}
+        required={pflicht}
+        aria-required={pflicht || undefined}
         placeholder={platzhalter}
         onChange={(e) => aendern(e.target.value)}
       />
@@ -81,7 +88,8 @@ export function Schritt1Vorhaben({
       <section aria-labelledby="fallart-titel" className="space-y-4">
         <div>
           <h2 id="fallart-titel" className="text-xl font-semibold">
-            Um welche Art von Vorhaben handelt es sich?
+            Um welche Art von Vorhaben handelt es sich?{" "}
+            <span className="text-base font-normal">(Pflichtangabe)</span>
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Wählen Sie den Fall, der Ihrem Vorhaben am nächsten kommt.
@@ -126,6 +134,7 @@ export function Schritt1Vorhaben({
           <Feld
             id="bezeichnung"
             beschriftung="Bezeichnung des Werkzeugs"
+            pflicht
             wert={vorhaben.bezeichnung}
             aendern={(v) => aendern({ bezeichnung: v })}
           />
@@ -219,7 +228,10 @@ export function Schritt1Vorhaben({
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="geltungsdauer">Geltungsdauer der Erprobung in Wochen</Label>
+            <Label htmlFor="geltungsdauer">
+              Geltungsdauer der Erprobung in Wochen
+              <span className="ml-1 font-normal">(Pflichtfeld)</span>
+            </Label>
             <Input
               id="geltungsdauer"
               type="number"
@@ -228,6 +240,8 @@ export function Schritt1Vorhaben({
               max={GELTUNGSDAUER_WOCHEN_MAX}
               step={1}
               value={Number.isFinite(geltungsdauerWochen) ? geltungsdauerWochen : ""}
+              required
+              aria-required
               aria-describedby="geltungsdauer-hinweis von-ende"
               aria-invalid={fehler !== "" ? true : undefined}
               onChange={(e) => setzeGeltungsdauerWochen(Number(e.target.value))}

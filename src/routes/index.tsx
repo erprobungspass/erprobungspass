@@ -143,6 +143,7 @@ function Startseite() {
         <input
           ref={dateiRef}
           type="file"
+          tabIndex={-1}
           accept=".json,application/json"
           className="sr-only"
           aria-label="JSON-Datei mit einem Vorhaben auswählen"

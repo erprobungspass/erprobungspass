@@ -53,7 +53,9 @@ export function Schritt3Beteiligungen({ signale, beteiligungen, profil, aendern 
           };
           return (
             <li key={stelle.id} className="rounded-md border border-border p-4">
-              <h3 className="font-medium">{stelle.bezeichnung}</h3>
+              <h3 id={`${stelle.id}-titel`} className="font-medium">
+                {stelle.bezeichnung}
+              </h3>
               <p className="mt-1 text-sm text-muted-foreground">
                 {beteiligungsBegruendung(stelle, signale, profil)}
               </p>
@@ -66,7 +68,11 @@ export function Schritt3Beteiligungen({ signale, beteiligungen, profil, aendern 
                 </p>
               )}
 
-              <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <div
+                role="group"
+                aria-labelledby={`${stelle.id}-titel`}
+                className="mt-4 grid gap-4 md:grid-cols-2"
+              >
                 <div className="space-y-1.5">
                   <Label htmlFor={`${stelle.id}-name`}>Name</Label>
                   <Input
