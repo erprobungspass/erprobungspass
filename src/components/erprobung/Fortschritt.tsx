@@ -35,15 +35,20 @@ export function Fortschritt({ aktuell, hoechster, aufSchritt }: Props) {
                 onClick={() => erreicht && aufSchritt(nummer)}
                 className={cn(
                   "rounded-md border px-2 py-1 text-left transition-colors",
-                  ist &&
-                    "border-marke-magenta bg-marke-magenta font-semibold text-primary-foreground",
+                  ist && "border-2 border-primary bg-primary font-semibold text-primary-foreground",
                   erledigt &&
-                    "border-marke-tuerkis bg-marke-tuerkis text-foreground hover:opacity-90",
+                    "border-2 border-marke-tuerkis-dunkel bg-card text-foreground hover:bg-secondary",
                   !erreicht && "cursor-not-allowed border-border bg-muted text-muted-foreground",
                 )}
               >
+                {erledigt && (
+                  <span aria-hidden="true" className="mr-1 font-semibold text-marke-tuerkis-dunkel">
+                    ✓
+                  </span>
+                )}
                 <span className="tabular-nums">{nummer}.</span> {titel}
                 {erledigt && <span className="sr-only">, erledigt</span>}
+                {ist && <span className="sr-only">, aktueller Schritt</span>}
               </button>
               {nummer < SCHRITTE.length && (
                 <span aria-hidden="true" className="text-muted-foreground">

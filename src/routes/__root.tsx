@@ -94,30 +94,37 @@ function RootComponent() {
       <HeadContent />
       <a
         href="#hauptinhalt"
-        className="no-print sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-card focus:px-4 focus:py-2 focus:text-foreground focus:outline focus:outline-2 focus:outline-marke-tuerkis"
+        className="no-print sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-card focus:px-4 focus:py-2 focus:text-foreground focus:outline focus:outline-2 focus:outline-marke-anthrazit"
       >
         Zum Hauptinhalt springen
       </a>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <footer className="no-print border-t border-border bg-card">
-        <nav
-          aria-label="Fußzeile"
-          className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-6 text-sm"
-        >
-          <Link to="/" className="underline">
-            Startseite
-          </Link>
-          <Link to="/einrichtung" className="underline">
-            Einrichtungsprofil
-          </Link>
-          <Link to="/barrierefreiheit" className="underline">
-            Erklärung zur Barrierefreiheit
-          </Link>
-          <span className="text-muted-foreground">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-6 text-sm">
+          <nav aria-label="Fußzeile">
+            <ul className="flex flex-wrap gap-x-6 gap-y-2">
+              <li>
+                <Link to="/" className="underline">
+                  Startseite
+                </Link>
+              </li>
+              <li>
+                <Link to="/einrichtung" className="underline">
+                  Einrichtungsprofil
+                </Link>
+              </li>
+              <li>
+                <Link to="/barrierefreiheit" className="underline">
+                  Erklärung zur Barrierefreiheit
+                </Link>
+              </li>
+            </ul>
+          </nav>
+          <p className="text-muted-foreground">
             IEI Immersive Education Ideations UG (haftungsbeschränkt) · Lizenz EUPL-1.2
-          </span>
-        </nav>
+          </p>
+        </div>
       </footer>
     </QueryClientProvider>
   );

@@ -21,7 +21,7 @@ export function DokumentKopf({
 }) {
   return (
     <header className="dokument-kopf space-y-3 border-b-2 border-marke-magenta pb-4">
-      <h1 className="text-2xl font-semibold">{titel}</h1>
+      <h3 className="text-2xl font-semibold">{titel}</h3>
       <dl className="grid gap-x-6 gap-y-1 sm:grid-cols-2">
         {felder.map((f) => (
           <div key={f.begriff}>
@@ -56,7 +56,8 @@ export function DokumentFuss({ daten }: { daten: Erprobungsdaten }) {
 export function Kaestchen() {
   return (
     <span
-      aria-hidden="true"
+      role="img"
+      aria-label="Kästchen zum Ankreuzen"
       className="kaestchen mt-1 inline-block size-4 shrink-0 border-2 border-foreground"
     />
   );

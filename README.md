@@ -81,7 +81,7 @@ genügt ein Webspace, der statische Dateien ausliefert.
    `erprobungspass-<Fassung>.tar.gz` herunterladen. Quelltext und Releases
    liegen an zwei gleichwertigen Stellen:
    - <https://github.com/erprobungspass/erprobungspass/releases>
-   - <https://gitlab.opencode.de/deutschland-was-geht1/erprobungspass/-/releases>
+   - <https://gitlab.opencode.de/deutschland-was-geht1/erprobungspass-1/erprobungspass/-/releases>
      (openCode, die Plattform des Bundes für offene Verwaltungssoftware)
 2. Prüfsumme abgleichen: `SHA256SUMS` liegt beim Release;
    `sha256sum -c SHA256SUMS` muss „OK“ melden.
@@ -202,13 +202,14 @@ dass `REGELWERK.md` zum Regelkern passt.
 ## Barrierefreiheit
 
 Angestrebt wird die Konformitätsstufe AA nach BITV 2.0 beziehungsweise
-EN 301 549. Umgesetzt sind unter anderem durchgängige Tastaturbedienung mit
-sichtbarem Fokus, verknüpfte Beschriftungen aller Eingabefelder, angekündigte
-Fehlermeldungen, ausreichende Kontraste, eine Ampel, die ihre Aussage stets
-zusätzlich als Wort und über eine eigene Rahmenform trägt, ein Sprunglink zum
-Hauptinhalt und Bedienbarkeit bis zu 200 Prozent Vergrößerung. Die vollständige
-Erklärung zur Barrierefreiheit ist in der Anwendung über die Fußzeile
-erreichbar.
+EN 301 549. Die Anwendung ist derzeit teilweise barrierefrei. Die Die Medialen
+GmbH hat am 9. und 10. November 2026 eine Prüffassung nach dem BITV-Test und
+WCAG 2.2 (Stufe AA) geprüft. Die dort festgestellten Befunde, darunter die schwerwiegenden
+zu Kontrasten, Fokusrahmen, Pflichtfeldern, Fehlerhinweisen und der Darstellung
+auf kleinen Bildschirmen, sind behoben und von der Betreiberin selbst nachgeprüft;
+eine erneute Prüfung durch eine Prüfstelle steht noch aus. Der Stand der Prüfung steht in der Erklärung
+zur Barrierefreiheit, die in der Anwendung über die Fußzeile erreichbar ist
+(`src/routes/barrierefreiheit.tsx`).
 
 ## Lizenz
 

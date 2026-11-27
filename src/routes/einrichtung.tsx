@@ -171,8 +171,14 @@ function Einrichtungsseite() {
             };
             return (
               <li key={rolle.id} className="rounded-md border border-border p-4">
-                <h3 className="font-medium">{rolle.bezeichnung}</h3>
-                <div className="mt-3 grid gap-4 md:grid-cols-3">
+                <h3 id={`rolle-${rolle.id}-titel`} className="font-medium">
+                  {rolle.bezeichnung}
+                </h3>
+                <div
+                  role="group"
+                  aria-labelledby={`rolle-${rolle.id}-titel`}
+                  className="mt-3 grid gap-4 md:grid-cols-3"
+                >
                   <div className="space-y-1.5">
                     <Label htmlFor={`${rolle.id}-name`}>Name</Label>
                     <Input
@@ -247,8 +253,9 @@ function Einrichtungsseite() {
               setProfil((p) => ({ ...p, hoechstdauerWochen: Number(e.target.value) }))
             }
             className="max-w-32"
+            aria-describedby="hoechstdauer-hinweis"
           />
-          <p className="text-xs text-muted-foreground">
+          <p id="hoechstdauer-hinweis" className="text-xs text-muted-foreground">
             Zulässig sind {GELTUNGSDAUER_WOCHEN_MIN} bis {GELTUNGSDAUER_WOCHEN_MAX} Wochen.
           </p>
         </div>
@@ -314,6 +321,7 @@ function Einrichtungsseite() {
         <input
           ref={dateiRef}
           type="file"
+          tabIndex={-1}
           accept="application/json"
           className="sr-only"
           aria-label="JSON-Datei mit einem Einrichtungsprofil auswählen"
